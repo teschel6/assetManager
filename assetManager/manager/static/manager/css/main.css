@@ -1,0 +1,13 @@
+/*main style class*/
+
+/*remove border*/
+div.container-fluid{
+	padding: 0px;
+}
+
+/*Style side menu bar*/
+div.menu{
+	background-color: #363647;
+	height: 100%;
+	padding: 3vmax;
+}

@@ -1,1 +1,21 @@
-<h1>Welcome to the AssetManager</h1>
+{% load static %}
+
+<!--Load Bootstrap-->
+<link rel="stylesheet" type="text/css"
+     href="{% static 'manager/css/bootstrap.min.css' %}"/>
+<script src="{% static 'manager/js/bootstrap.min.js' %}"></script>
+
+<!--Load Custom stylesheet-->
+<link rel="stylesheet" type="text/css" href="{% static 'manager/css/main.css' %}"/>
+
+<div class="container-fluid">
+	<!--BEGIN MENU-->
+	<div class="col-sm-3 col-lg-2 menu">
+		<h3>View Inventory</h3>
+		<h3>Actions</h3>
+		<h3>More</h3>
+	</div>
+	<!--END MENU-->
+	<div class="col-sm-9 col-lg-8">
+	</div>
+<div>
