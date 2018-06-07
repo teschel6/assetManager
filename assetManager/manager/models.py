@@ -8,15 +8,15 @@ from django.utils import timezone
 
 class Inventory(models.Model):
     asset_tag = models.PositiveIntegerField(primary_key=True) #Primary Key
-    computer_name = models.CharField(max_length = 32)
-    model = models.CharField(max_length = 64)
-    os = models.CharField(max_length = 32)
-    serial = models.CharField(max_length = 32)
-    service_tag = models.CharField(max_length = 16)
-    purchase_date = models.DateField()
-    warrenty_expiration = models.DateField()
-    last_update = models.DateField()
-    notes = models.CharField(max_length = 256)
+    computer_name = models.CharField(max_length = 32,null=True)
+    model = models.CharField(max_length = 64,null=True)
+    os = models.CharField(max_length = 32,null=True)
+    serial = models.CharField(max_length = 32,null=True)
+    service_tag = models.CharField(max_length = 16,null=True)
+    purchase_date = models.DateField(null=True)
+    warrenty_expiration = models.DateField(null=True)
+    last_updated = models.DateField(null=True)
+    notes = models.CharField(max_length = 256,null=True)
 
 class Group(models.Model):
     group = models.CharField(primary_key=True,max_length=32)
