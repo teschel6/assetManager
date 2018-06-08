@@ -17,7 +17,6 @@ div.menu{
 	background-color: #363647;
 	height: 100%;
 	width: 250px; /*fixed width*/
-	overflow-x: hidden;
 	position: fixed;
 	z-index: 1;
 	top: 0;
@@ -74,3 +73,21 @@ div.top_bar{
 	background-color: white;
 }
 
+
+div.cardd{
+	background-color: white;
+	border-radius: 10px;
+	margin: auto;
+	margin-top: 5%;
+	width: 80%;
+	max-width: 700px;
+	padding: 3rem;
+}
+
+.form-row{
+	padding-bottom: 1.5rem !important;
+}
+
+h2.cardd_header{
+	font-weight: bold;
+}
