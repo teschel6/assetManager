@@ -1,3 +1,5 @@
+<!--BASE MENU TEMPLATE-->
+
 {% load static %}
 
 <!--Load Bootstrap-->
@@ -10,12 +12,40 @@
 
 <div class="container-fluid">
 	<!--BEGIN MENU-->
-	<div class="col-sm-3 col-lg-2 menu">
-		<h3>View Inventory</h3>
-		<h3>Actions</h3>
-		<h3>More</h3>
+	<div class="menu shadow">
+		<h3 class="menu_title">View Inventory</h3>
+			<ul class="menu_list">
+				<li class="menu_item">deployed</li>
+				<li class="menu_item">undeployed</li>
+				<li class="menu_item">by asset tag</li>
+				<li class="menu_item">by group</li>
+			</ul>
+		<h3 class="menu_title">Actions</h3>
+                        <ul class="menu_list">
+                                <li class="menu_item"><a href='/add'>add inventory</a></li>
+                                <li class="menu_item">deploy inventory</li>
+                                <li class="menu_item">recieve inventory</li>
+				<li class="menu_item">edit groups</li>
+                        </ul>
+
+		<h3 class="menu_title">More</h3>
+                        <ul class="menu_list">
+                                <li class="menu_item">settings</li>
+                                <li class="menu_item">help</li>
+                        </ul>
 	</div>
 	<!--END MENU-->
-	<div class="col-sm-9 col-lg-8">
+
+	<!--START CONTENT-->
+	<div class="content">
+		<div class="top_bar shadow">
+		<!--TODO: Add search bar and login here-->
+		</div>
+		
+		<!--import sub template from context-->
+		{% if sub_template %}
+			{% include sub_template %}
+		{% endif %}
 	</div>
+	<!--END CONTENT-->
 <div>
