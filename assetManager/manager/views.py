@@ -9,5 +9,13 @@ def index(request):
 	return render(request, 'manager/index.html',context)
 
 def add(request):
-	context = {'sub_template':'manager/add.html'} #add.html form
+	context = {'sub_template':'manager/add.html'} 
+	return render(request, 'manager/index.html',context)
+
+def deploy(request):
+	context = {'sub_template':'manager/deploy.html'}
+	return render(request, 'manager/index.html',context)
+
+def receive(request):
+	context = {'sub_template':'manager/receive.html'}
 	return render(request, 'manager/index.html',context)

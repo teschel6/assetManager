@@ -7,4 +7,6 @@ app_name = 'manager'
 urlpatterns = [
     path('',views.index, name='index'),
     path('add/', views.add, name='add'),
+    path('deploy/',views.deploy, name='deploy'),
+    path('receive/',views.receive, name='receive'),
 ]

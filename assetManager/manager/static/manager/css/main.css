@@ -38,7 +38,7 @@ ul.menu_list{
 }
 
 li.menu_item{
-	font-size: 1.2em;
+	font-size: 1em;
 	line-height: 1.5;
 	font-weight: bold;
 	color: #d9d9d9;
@@ -55,6 +55,7 @@ li.menu_item:hover{
 	2px rgba(0,0,0,0.24);
 }
 .menu_item a{
+	display: block;
 	color: inherit;
 	text-decoration: none;
 }
@@ -74,7 +75,10 @@ div.top_bar{
 }
 
 
-div.cardd{
+
+/*Custom Form and Card styling*/
+
+div.cardd{ /*non-bootstrap card*/
 	background-color: white;
 	border-radius: 10px;
 	margin: auto;
@@ -90,4 +94,9 @@ div.cardd{
 
 h2.cardd_header{
 	font-weight: bold;
+}
+
+/*wider button*/
+.btn-wide{
+	width: 10rem;
 }
