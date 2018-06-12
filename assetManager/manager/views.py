@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+
+from .forms import AddGrp
 
 # Create your views here.
 #Default test view
@@ -18,4 +21,16 @@ def deploy(request):
 
 def receive(request):
 	context = {'sub_template':'manager/receive.html'}
+	return render(request, 'manager/index.html',context)
+
+def addgrp(request):
+	if request.method == 'POST':
+		form = AddGrp(request.POST)
+		if form.is_valid():
+			print('Received: ', form.cleaned_data.group, ' - AddGrp')
+			return HttpResponseRedirect('addgrp/')
+	else:
+		form = AddGrp()
+
+	context= {'sub_template':'manager/addgrp.html','form':form}
 	return render(request, 'manager/index.html',context)
