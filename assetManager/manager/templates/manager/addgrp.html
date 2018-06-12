@@ -1,0 +1,16 @@
+
+<!--add group form-->
+
+<div class="cardd shadow" method="post">
+        <h2 class="cardd_header">Add Group</h2>
+        <hr>
+        <form action="addgrp/" method="post">
+	        {% csrf_token %}
+		{{ form }}
+		<br><br>
+		<div style="text-align:right">
+                	<button type="submit" class="btn-lg btn-primary btn-wide">ADD GROUP</button>
+		</div>
+        </form>
+</div>
+
