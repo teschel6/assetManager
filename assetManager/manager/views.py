@@ -27,8 +27,8 @@ def addgrp(request):
 	if request.method == 'POST':
 		form = AddGrp(request.POST)
 		if form.is_valid():
-			print('Received: ', form.cleaned_data.group, ' - AddGrp')
-			return HttpResponseRedirect('addgrp/')
+			print('Received: ', form.cleaned_data['group'], ' - AddGrp')
+			return HttpResponseRedirect('/addgrp')
 	else:
 		form = AddGrp()
 
