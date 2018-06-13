@@ -1,12 +1,16 @@
 
 <!--add group form-->
 
+<!--Load custom method to style form widgets-->
+{% load addCSS %}
+
 <div class="cardd shadow" method="post">
         <h2 class="cardd_header">Add Group</h2>
         <hr>
-        <form action="addgrp/" method="post">
+        <form action="" method="post">
 	        {% csrf_token %}
-		{{ form }}
+		<label for="group">group</label>
+		{{ form.group|addclass:'form-control'}}
 		<br><br>
 		<div style="text-align:right">
                 	<button type="submit" class="btn-lg btn-primary btn-wide">ADD GROUP</button>
