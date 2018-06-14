@@ -32,7 +32,9 @@ class DeployInventory(forms.Form):
 	username.widget.attrs.update({'autocomplete':'off'})
 	group = forms.ChoiceField(choices=[])
 
+	#Overide init to fix update glitch
 	def __init__(self, *args, **kwargs):
-        	super(DeployInventory, self).__init__(*args, **kwargs)
-        	self.fields['group'] = forms.ChoiceField(choices=[(obj.group, obj.group) for obj in Group.objects.all()])
+		super(DeployInventory, self).__init__(*args, **kwargs)
+		#Load group choices for select group widget
+		self.fields['group'] = forms.ChoiceField(choices=[(obj.group, obj.group) for obj in Group.objects.all()])
 
