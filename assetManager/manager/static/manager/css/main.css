@@ -83,6 +83,7 @@ div.cardd{ /*non-bootstrap card*/
 	border-radius: 10px;
 	margin: auto;
 	margin-top: 5%;
+	margin-bottom: 5%;
 	width: 80%;
 	max-width: 700px;
 	padding: 3rem;
@@ -99,4 +100,16 @@ h2.cardd_header{
 /*wider button*/
 .btn-wide{
 	width: 10rem;
+}
+
+/*Custom Date input Widget*/
+.date-input{
+	width: 33% !important;
+	display: inline;
+}
+
+/*extra spacing on form widgets*/
+.form-control{
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
