@@ -5,6 +5,7 @@
 <!--Load Bootstrap-->
 <link rel="stylesheet" type="text/css"
      href="{% static 'manager/css/bootstrap.min.css' %}"/>
+<script src="{% static 'manager/js/jquery.min.js' %}"></script>
 <script src="{% static 'manager/js/bootstrap.min.js' %}"></script>
 
 <!--Load Custom stylesheet-->
@@ -25,7 +26,7 @@
                                 <li class="menu_item"><a href='/add'>add inventory</a></li>
                                 <li class="menu_item"><a href='/deploy'>deploy inventory</a></li>
                                 <li class="menu_item"><a href='/receive'>receive inventory</a></li>
-				<li class="menu_item">edit groups</li>
+				<li class="menu_item"><a href='/addgrp'>edit groups</a></li>
                         </ul>
 
 		<h3 class="menu_title">More</h3>
@@ -41,7 +42,14 @@
 		<div class="top_bar shadow">
 		<!--TODO: Add search bar and login here-->
 		</div>
-		
+		{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message.tags }} alert-dismissible">
+    			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				{{ message }}
+  			</div>
+		{% endfor %}
+		{% endif %}		
 		<!--import sub template from context-->
 		{% if sub_template %}
 			{% include sub_template %}
