@@ -1,28 +1,30 @@
 <!--deploy computer form-->
 
+{% load addCSS %}
+
 <div class="cardd shadow">
 	<h2 class="cardd_header">Deploy Inventory</h2>
 	<hr>
-	<form>
-		<div class="form-group">
-                        <label for="asset_tag">Asset Tag*</label>
-                        <input type="number" class="form-control" id="asset_tag">
-			<div style="text-align:right">
-				<small>Model: Dell Optiplex 7010</small>
-			</div>
-			
-			<label for="username">Username</label>
-			<input type="text" class="form-control" id="username">
-			
-			
-			<label for="group">Group</label>
-			<input type="date" class="form-control" id="group">
-			
-			<br>
-
-			<div style="text-align:right">
+	<form action="" method="post">
+		
+		{% csrf_token %}
+		
+		<label for="asset_tag">Asset Tag</label>
+		{{ form.asset_tag|addclass:'form-control'}}
+		
+		<label for="username">Username</label>
+		{{ form.username|addclass:'form-control'}}
+		
+		<label for="group">Group</label>
+		{{ form.group|addclass:'form-control'}}
+		
+		<br>
+		<p>
+			<label>Date Deployed: {{today}}</label>
+		</p>
+		
+		<div style="text-align:right; margin-top:2em;">
 				<button type="submit" class="btn-lg btn-success btn-wide">DEPLOY</button>
-			</div>
 		</div>
 	</form>
 </div>

@@ -50,7 +50,16 @@ def add(request):
 
 
 def deploy(request):
-	context = {'sub_template':'manager/deploy.html'}
+	if request.method == 'POST':
+		form = DeployInventory(request.POST)
+		if form.is_valid():
+			#Deploy Computer here
+			print('Deploy here')
+	else:
+		form = DeployInventory()
+	context = {'sub_template':'manager/deploy.html',
+		'today':datetime.date.today(),
+		'form':form}
 	return render(request, 'manager/index.html',context)
 
 def receive(request):
