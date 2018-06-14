@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect
 from .forms import *
 from .models import *
 
+from django.contrib import messages
+
 import datetime
 
 #Default test view
@@ -32,11 +34,14 @@ def add(request):
 			#Save to database
 			i.save()
 			print("Added ", i.asset_tag, " to database")
+			messages.add_message(request, messages.SUCCESS, 'Added ' + '#' + str(i.asset_tag) + ' Successfully to inventory')
+			return HttpResponseRedirect('/add')
 	else:
 		form = AddInventory()
 
 	context = {'sub_template':'manager/add.html','form':form} 
 	return render(request, 'manager/index.html',context)
+
 
 def deploy(request):
 	context = {'sub_template':'manager/deploy.html'}
