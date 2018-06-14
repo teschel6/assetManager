@@ -1,59 +1,41 @@
 
 <!--Add new inventory form-->
 
+{% load addCSS %}
+
 <div class="cardd shadow">
 	<h2 class="cardd_header">Add New Inventory</h2>
 	<hr>
-	<form>
-		<div class="form-group">
-			<div class="form-row">
-			<div class="col">
-                                <label for="asset_tag">Asset Tag*</label>
-                                <input type="number" class="form-control" id="asset_tag">
-                        </div>
-                        <div class="col">
-                                <label for="com_name">Computer Name</label>
-                                <input type="text" class="form-control" id="com_name">
-                        </div>
-                        </div>
+	<form action="" method="post">			
+		{% csrf_token %}
 
-			<div class="form-row">
-			<div class="col">
-                        	<label for="model">Model*</label>
-                       		<input type="text" class="form-control" id="model">
-			</div>
-			<div class="col">
-                        	<label for="os">Operating System</label>
-                        	<input type="text" class="form-control" id="os">
-			</div>
-			</div>
+		<label for="asset_tag">Asset Tag</label>
+		{{ form.asset_tag|addclass:'form-control'}}
+		
+		<label for="computer_name">Computer Name</label>
+		{{ form.computer_name|addclass:'form-control'}}
 
-			<div class="form-row">
-			<div class="col">
-                        	<label for="serial">Serial Number</label>
-                        	<input type="text" class="form-control" id="serial">
-			</div>
-			<div class="col">			
-                        	<label for="service_tag">Service Tag</label>
-                        	<input type="text" class="form-control" id="service_tag">
-			</div>
-			</div>
+		<label for="model">Model</label>
+		{{ form.model|addclass:'form-control'}}
 
-			<div class="form-row">
-			<div class="col">
-				<label for="warr_exp">Warrenty Expiration</label>
-				<input type="date" class="form-control" id="warr_exp">
-			</div>
-			<div class="col">
-				<label for="purchased">Date Purchased</label>
-				<input type="date" class="form-control" id="purchased">
-			</div>
-			</div>
-			
-			<br>
-			<div style="text-align:right">
-				<button type="submit" class="btn-lg btn-success btn-wide">ADD</button>
-			</div>
+		<label for="os">Operating System</label>
+		{{ form.os|addclass:'form-control'}}
+
+		<label for="serial">Serial Number</label>
+		{{ form.serial|addclass:'form-control'}}
+
+		<label for="service_tag">Service Tag</label>
+		{{ form.service_tag|addclass:'form-control'}}
+		
+				
+		<label for="warr_exp">Warrenty Expiration</label><br>
+		{{ form.warr_exp|addclass:'form-control date-input'}}
+
+		<label for="date_purchased">Date Purchased</label><br>
+		{{ form.date_purchased|addclass:'form-control date-input'}}
+		
+		<div style="text-align:right; margin-top: 2em;">
+			<button type="submit" class="btn-lg btn-success btn-wide">ADD</button>
 		</div>
 	</form>
 </div>
