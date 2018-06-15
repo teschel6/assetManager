@@ -26,7 +26,8 @@ def add(request):
 			try:
 				Inventory.objects.get(pk=a)
 				print("Asset Tag already exists")
-				messages.add_message(request, messages.WARNING,'Oops! It looks like ' + '#' + str(a) + ' is already in inventory')			
+				message = 'Oops! It looks like ' + '#' + str(a) + ' is already in inventory.'
+				messages.add_message(request, messages.WARNING,message)			
 			except Inventory.DoesNotExist:
 				i = Inventory(asset_tag = form.cleaned_data['asset_tag'])
 				i.computer_name = form.cleaned_data['computer_name']
@@ -40,7 +41,8 @@ def add(request):
 				#Save to database
 				i.save()
 				print("Added ", i.asset_tag, " to database")
-				messages.add_message(request, messages.SUCCESS, 'Successfully added ' + '#' + str(i.asset_tag) + ' to inventory')
+				message = 'Successfully added ' + '#' + str(i.asset_tag) + ' to inventory.'
+				messages.add_message(request, messages.SUCCESS, message)
 				return HttpResponseRedirect('/add')
 	else:
 		form = AddInventory()
@@ -53,10 +55,34 @@ def deploy(request):
 	if request.method == 'POST':
 		form = DeployInventory(request.POST)
 		if form.is_valid():
-			#Deploy Computer here
-			print('Deploy here')
+			a = form.cleaned_data['asset_tag']
+			try:
+				#get asset from inventory
+				i = Inventory.objects.get(pk=a)
+				try:
+					#if deployed throw warning
+					Deployed.objects.get(pk=i)
+					message = "Oops! " + '#' + str(a) + " is already deployed."
+					messages.add_message(request, messages.WARNING, message)
+				except Deployed.DoesNotExist:
+					#if undeployed than deploy
+					d = Deployed(asset_tag = i)
+					d.username = form.cleaned_data['username']
+					#add location
+					d.group = Group.objects.get( pk = form.cleaned_data['group'])
+					d.date_issued = datetime.date.today()
+					d.save()
+					message = '#' + str(a) + " deployed to '" + d.username +"'"
+					messages.add_message(request, messages.SUCCESS, message)
+					return HttpResponseRedirect('/deploy')
+			except Inventory.DoesNotExist:
+				#throw error if asset not found
+				message = "Oops! It looks like " + '#' + str(a) + " does not exist in inventory."
+				messages.add_message(request, messages.WARNING,message)
 	else:
 		form = DeployInventory()
+	
+	#Render View with context
 	context = {'sub_template':'manager/deploy.html',
 		'today':datetime.date.today(),
 		'form':form}

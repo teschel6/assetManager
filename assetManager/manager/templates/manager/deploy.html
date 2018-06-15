@@ -14,13 +14,16 @@
 		
 		<label for="username">Username</label>
 		{{ form.username|addclass:'form-control'}}
+
+		<label for="location">Location</label>
+		{{ form.location|addclass:'form-control'}}
 		
 		<label for="group">Group</label>
 		{{ form.group|addclass:'form-control'}}
 		
 		<br>
 		<p>
-			<label>Date Deployed: {{today}}</label>
+			<label>Date Issued: {{today}}</label>
 		</p>
 		
 		<div style="text-align:right; margin-top:2em;">

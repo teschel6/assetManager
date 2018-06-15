@@ -30,6 +30,8 @@ class DeployInventory(forms.Form):
 	asset_tag.widget.attrs.update({'autocomplete':'off'})
 	username = forms.CharField(max_length=32,required=True)
 	username.widget.attrs.update({'autocomplete':'off'})
+	location = forms.CharField(max_length=32, required=True)
+	location.widget.attrs.update({'autocomplete':'off'})
 	group = forms.ChoiceField(choices=[])
 
 	#Overide init to fix update glitch
