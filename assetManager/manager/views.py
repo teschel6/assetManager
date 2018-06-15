@@ -21,19 +21,6 @@ def add(request):
 	if request.method == 'POST':
 		form = AddInventory(request.POST)
 		if form.is_valid():
-			#create invnetory object from form input
-			i = Inventory(asset_tag = form.cleaned_data['asset_tag'])
-			i.computer_name = form.cleaned_data['computer_name']
-			i.model = form.cleaned_data['model']
-			i.os = form.cleaned_data['os']
-			i.serial = form.cleaned_data['serial']
-			i.service_tag = form.cleaned_data['service_tag']
-			i.purchased_date = form.cleaned_data['date_purchased']
-			i.warrenty_expiration = form.cleaned_data['warr_exp']
-			i.last_updated = datetime.date.today()
-			#Save to database
-			i.save()
-			print("Added ", i.asset_tag, " to database")
 			a = form.cleaned_data['asset_tag']
 			#Verify that asset tag is unused
 			try:
@@ -103,7 +90,29 @@ def receive(request):
 		form = ReceiveInventory(request.POST)
 		if form.is_valid():
 			a = form.cleaned_data['asset_tag']
-			print("receive computer here")
+			#check if asset exists in inventory
+			try:
+				i = Inventory.objects.get(pk=a)
+				#check if asset is deployed
+				try:
+					d = Deployed.objects.get(pk=i)
+					h = History(asset_tag = i)
+					h.username = d.username
+					h.location = d.location
+					h.date_issued = d.date_issued
+					h.date_returned = datetime.date.today() 
+					h.save()
+					d.delete()
+					message = "Success, " + '#' + str(a) + " has been undeployed."
+					messages.add_message(request, messages.SUCCESS, message)
+				except Deployed.DoesNotExist:
+					#not deployed so throw error
+					message = '#' + str(a) + " is not currently deployed."
+					messages.add_message(request, messages.WARNING,message)
+			except Inventory.DoesNotExist:
+				#if asset does not exist throw warning
+				message = "Oops! " + '#' + str(a) + " does not exist in inventory."
+				messages.add_message(request, messages.WARNING, message)
 			return HttpResponseRedirect('/receive')
 	else: 
 		form = ReceiveInventory(request.POST)
