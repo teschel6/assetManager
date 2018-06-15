@@ -40,3 +40,7 @@ class DeployInventory(forms.Form):
 		#Load group choices for select group widget
 		self.fields['group'] = forms.ChoiceField(choices=[(obj.group, obj.group) for obj in Group.objects.all()])
 
+
+class ReceiveInventory(forms.Form):
+	asset_tag = forms.IntegerField(required=True)
+	asset_tag.widget.attrs.update({'autocomplete':'off'})
