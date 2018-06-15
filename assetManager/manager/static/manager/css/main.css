@@ -66,6 +66,7 @@ div.content{
 	margin-left: 250px; /*same as menu bar width*/
 	background-color: #cccccc;
 	height: 100%;
+	overflow: auto;
 }
 
 /*style top bar container*/
@@ -89,10 +90,6 @@ div.cardd{ /*non-bootstrap card*/
 	padding: 3rem;
 }
 
-.form-row{
-	padding-bottom: 1.5rem !important;
-}
-
 h2.cardd_header{
 	font-weight: bold;
 }
@@ -111,5 +108,4 @@ h2.cardd_header{
 /*extra spacing on form widgets*/
 .form-control{
 	margin-top: 0.5em;
-	margin-bottom: 0.5em;
 }
