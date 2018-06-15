@@ -5,11 +5,8 @@ from django.http import HttpResponseRedirect
 from .forms import *
 from .models import *
 
-<<<<<<< HEAD
-=======
 from django.contrib import messages
 
->>>>>>> fbbf584e7f53773accb0045e072e2c33e2f4f2cd
 import datetime
 
 #Default test view
@@ -24,7 +21,6 @@ def add(request):
 	if request.method == 'POST':
 		form = AddInventory(request.POST)
 		if form.is_valid():
-<<<<<<< HEAD
 			#create invnetory object from form input
 			i = Inventory(asset_tag = form.cleaned_data['asset_tag'])
 			i.computer_name = form.cleaned_data['computer_name']
@@ -38,7 +34,6 @@ def add(request):
 			#Save to database
 			i.save()
 			print("Added ", i.asset_tag, " to database")
-=======
 			a = form.cleaned_data['asset_tag']
 			#Verify that asset tag is unused
 			try:
@@ -62,7 +57,6 @@ def add(request):
 				message = 'Successfully added ' + '#' + str(i.asset_tag) + ' to inventory.'
 				messages.add_message(request, messages.SUCCESS, message)
 				return HttpResponseRedirect('/add')
->>>>>>> fbbf584e7f53773accb0045e072e2c33e2f4f2cd
 	else:
 		form = AddInventory()
 

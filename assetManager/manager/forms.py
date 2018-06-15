@@ -2,17 +2,13 @@ from django import forms
 
 import datetime
 
-<<<<<<< HEAD
-=======
 from .models import Group
 
->>>>>>> fbbf584e7f53773accb0045e072e2c33e2f4f2cd
 class AddGrp(forms.Form):
 	group = forms.CharField(max_length=32)
 
 class AddInventory(forms.Form):
 	asset_tag = forms.IntegerField(required=True)
-<<<<<<< HEAD
 	computer_name = forms.CharField(max_length=32,required=False)
 	model = forms.CharField(max_length=32,required=False)
 	os = forms.CharField(max_length=32,required=False)
@@ -20,7 +16,6 @@ class AddInventory(forms.Form):
 	service_tag = forms.CharField(max_length=32,required=False)
 	warr_exp = forms.DateField(widget=forms.SelectDateWidget())
 	date_purchased = forms.DateField(widget=forms.SelectDateWidget())
-=======
 	asset_tag.widget.attrs.update({'autocomplete':'off'})
 	computer_name = forms.CharField(max_length=32,required=False)
 	computer_name.widget.attrs.update({'autocomplete':'off'})
@@ -52,11 +47,7 @@ class DeployInventory(forms.Form):
 		#Load group choices for select group widget
 		self.fields['group'] = forms.ChoiceField(choices=[(obj.group, obj.group) for obj in Group.objects.all()])
 
-<<<<<<< HEAD
 
 class ReceiveInventory(forms.Form):
 	asset_tag = forms.IntegerField(required=True)
 	asset_tag.widget.attrs.update({'autocomplete':'off'})
-=======
->>>>>>> fbbf584e7f53773accb0045e072e2c33e2f4f2cd
->>>>>>> 2a7cbfb75a013ca2088af64513c676d87fcc4d7f
