@@ -1,4 +1,10 @@
-/*main style class*/
+
+/*main css styling*/
+/*Author: Techel6*/
+/*Description: styling for menu
+and other globaly used classes*/
+
+/*imported in index.html*/
 
 /*Material UI shadow*/ 
 .shadow{ 
@@ -6,7 +12,7 @@
 }
 
 
-/*remove border*/
+/*remove border from bootstrap container*/
 div.container-fluid{
 	padding: 0px;
 }
@@ -61,6 +67,8 @@ li.menu_item:hover{
 }
 /*end menu item styling*/
 
+/*######################################################*/
+
 /*Style content section*/
 div.content{
 	margin-left: 250px; /*same as menu bar width*/
@@ -74,6 +82,9 @@ div.top_bar{
 	height: 5rem;
 	background-color: white;
 }
+
+
+/*####################################################*/
 
 
 

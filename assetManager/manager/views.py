@@ -15,6 +15,17 @@ def index(request):
 	context = {} #add no sub_template
 	return render(request, 'manager/index.html',context)
 
+#View Asset details by asset tag view
+def asset(request, asset_tag):
+	asset = Inventory.objects.get(pk=asset_tag)
+	context = {'sub_template':'manager/asset.html','asset':asset}
+	#Get deployment status
+	try:
+		deployed = Deployed.objects.get(pk=asset)
+	except Deployed.DoesNotExist:
+		deployed = Deployed(username = 'undeployed')
+	context['deployed'] = deployed
+	return render(request, 'manager/index.html',context)
 
 #Add inventory form view
 def add(request):

@@ -1,0 +1,37 @@
+/*CSS styling for asset page*/
+/*Author: Teschel6*/
+/*Date: June 15th 2018*/
+
+/*imported in asset.html*/
+
+/*Custom card for asset view*/
+div.info-card{
+        background-color: white;
+        border-radius: 10px;
+        margin: auto;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        width: 100%;
+        padding: 2rem;
+}
+
+div.history{
+	height: 30rem;
+}
+
+.indicator{
+	width: 0.8em;
+	height: 0.8em;
+	border-radius: 50%;
+	display: inline-block;
+	float: right;
+	margin: 0.2em;
+}
+
+.indicator-green{
+	background-color: #5cb85c;	
+}
+
+.indicator-amber{
+	background-color: #ffbf00;
+}

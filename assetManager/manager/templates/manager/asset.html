@@ -1,0 +1,92 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css"
+     href="{% static 'manager/css/asset.css' %}"/>
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-12 col-lg-6">
+
+<!--Asset Infromation Cardd-->
+<div class="info-card shadow">
+	<h2 class="cardd_header">#{{ asset.asset_tag }}</h2>
+	<hr>
+	<div class="row">
+		<div class="col-sm-6">
+			<p><strong>Computer name:</strong></p>
+			<p><strong>Model:</strong></p>
+			<p><strong>Operating System:</strong></p>
+			<p><strong>Serial:</strong></p>
+			<p><strong>Service Tag:</strong></p>
+			<p><strong>Purchased:</strong></p>
+			<p><strong>Warrenty Expiration:</strong></p>
+			<p><strong>Last Updated:</strong></p>
+		</div>
+		<div class="col-sm-6">
+			<p>{{ asset.computer_name }}</p>
+			<p>{{ asset.model }}</p>
+			<p>{{ asset.os }}</p>
+			<p>{{ asset.serial }}</p>
+			<p>{{ asset.service_tag }}</p>
+			<p>{{ asset.purchase_date }}</p>
+			<p>{{ asset.warrenty_expiration }}</p>
+			<p>{{ asset.last_updated }}</p>
+		</div>
+	</div>
+	<br>
+	<p align="right"><a id="edit_asset" href="#">edit</a></p>
+</div>
+
+<!--Notes Cardd-->
+<div class="info-card shadow">
+        <h2 class="cardd_header">Notes:</h2>
+        <hr>
+        <p>{{ asset.notes }}</p>
+        <p align="right"><a id="edit_notes" href="#">edit</a></p>
+</div>
+
+
+</div>
+
+<div class="col-md-12 col-lg-6">
+
+<!--Status Card-->
+<div class="info-card shadow">
+			<h2 class="cardd_header">Status
+			{% if deployed.username == "undeployed" %}
+        		<span class="indicator indicator-amber"></span>
+        		{% elif  deployed.username != "undeployed" %}
+        		<span class="indicator indicator-green"></span>
+        		{% endif %}
+			</h2>
+        <hr>
+        <div class="row">
+                <div class="col-sm-6">
+                        <p><strong>Username:</strong></p>
+                        <p><strong>Date Issued:</strong></p>
+                        <p><strong>Group:</strong></p>
+                </div>
+                <div class="col-sm-6">
+                	{% if deployed %}
+			<p> {{ deployed.username }} </p>
+			<p> {{ deployed.date_issued }} </p>
+			<p> {{ deployed.group.group }} </p>
+			{% endif %}
+                </div>
+        </div>
+</div>
+
+<!--History Card-->
+<div class="info-card history shadow">
+	<h2 class="cardd_header">History</h2>
+	<hr>
+	<br><br><br><br><br><br>
+</div>
+
+</div>
+
+</div>
+
+</div>
