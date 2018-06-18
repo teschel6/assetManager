@@ -1,4 +1,7 @@
 {% load static %}
+{% load addCSS %}
+
+<script src="{% static 'manager/js/asset.js' %}"></script>
 
 <link rel="stylesheet" type="text/css"
      href="{% static 'manager/css/asset.css' %}"/>
@@ -43,8 +46,17 @@
 <div class="info-card shadow">
         <h2 class="cardd_header">Notes:</h2>
         <hr>
-        <p>{{ asset.notes }}</p>
-        <p align="right"><a id="edit_notes" href="#">edit</a></p>
+        <p id='notes'>{{ asset.notes }}</p>
+        <form id='notes_form' class="hidden" action="" method="post">
+      		{% csrf_token %}
+          {{ form.notes|addclass:'form-control'}}
+          <p align="right">
+            <button id="save_notes" type="submit" class="edit-save" onclick="saveNotes()">save</button>
+          </p>
+        </form>
+        <p align="right">
+          <button id="edit_notes" class="edit-save" onclick="editNotes()">edit</button>
+        </p>
 </div>
 
 
@@ -64,16 +76,18 @@
         <hr>
         <div class="row">
                 <div class="col-sm-6">
-                        <p><strong>Username:</strong></p>
-                        <p><strong>Date Issued:</strong></p>
-                        <p><strong>Group:</strong></p>
+                    <p><strong>Username:</strong></p>
+                    <p><strong>Location:</strong></p>
+                    <p><strong>Date Issued:</strong></p>
+                    <p><strong>Group:</strong></p>
                 </div>
                 <div class="col-sm-6">
                 	{% if deployed %}
-			<p> {{ deployed.username }} </p>
-			<p> {{ deployed.date_issued }} </p>
-			<p> {{ deployed.group.group }} </p>
-			{% endif %}
+			               <p> {{ deployed.username }} </p>
+                     <p> {{ deployed.location }} </p>
+			               <p> {{ deployed.date_issued }} </p>
+			               <p> {{ deployed.group.group }} </p>
+			            {% endif %}
                 </div>
         </div>
 </div>
@@ -81,8 +95,7 @@
 <!--History Card-->
 <div class="info-card history shadow">
 	<h2 class="cardd_header">History</h2>
-
-  <table class="table">
+  <table class="table scroll">
     <thead>
     <tr>
       <th>username</th>
@@ -100,6 +113,7 @@
     </tr>
     {% endfor %}
   </table>
+
 </div>
 
 </div>

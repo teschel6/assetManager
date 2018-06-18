@@ -15,8 +15,15 @@ div.info-card{
         padding: 2rem;
 }
 
+/*Table overflow history card*/
+.scroll{
+    overflow-y: auto;
+    display: inline-block;
+    height: 80%;
+}
+
 div.history{
-	height: 30rem;
+	height: 28rem;
 }
 
 .indicator{
@@ -29,9 +36,25 @@ div.history{
 }
 
 .indicator-green{
-	background-color: #5cb85c;	
+	background-color: #5cb85c;
 }
 
 .indicator-amber{
 	background-color: #ffbf00;
+}
+
+/* Hide element initially */
+.hidden{
+  display: none;
+}
+
+/* Custom plain button*/
+button.edit-save{
+  color: #4a86e8;
+  background: none;
+  display: block;
+  border: none;
+  font: inherit;
+  outline: inherit;
+  cursor: pointer;
 }

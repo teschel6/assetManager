@@ -18,7 +18,16 @@ def index(request):
 #View Asset details by asset tag view
 def asset(request, asset_tag):
 	asset = Inventory.objects.get(pk=asset_tag)
-	context = {'sub_template':'manager/asset.html','asset':asset}
+	if request.method == 'POST':
+		form = EditInventory(request.POST)
+		if form.is_valid():
+			asset.notes = form.cleaned_data['notes']
+			asset.last_updated = datetime.date.today()
+			asset.save()
+			return HttpResponseRedirect('/'+str(asset_tag))
+	else:
+		form = EditInventory()
+	context = {'sub_template':'manager/asset.html','asset':asset,'form':form}
 	#Get deployment status
 	try:
 		deployed = Deployed.objects.get(pk=asset)
@@ -26,7 +35,7 @@ def asset(request, asset_tag):
 		deployed = Deployed(username = 'undeployed')
 	context['deployed'] = deployed
 	#Get deployment History
-	history = History.objects.filter(asset_tag=asset)
+	history = History.objects.filter(asset_tag=asset).order_by('-date_issued')
 	context['history'] = history
 	return render(request, 'manager/index.html',context)
 
