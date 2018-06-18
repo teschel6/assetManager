@@ -16,7 +16,7 @@
 <div class="info-card shadow">
 	<h2 class="cardd_header">#{{ asset.asset_tag }}</h2>
 	<hr>
-	<div class="row">
+	<div class="row" id="info">
 		<div class="col-sm-6">
 			<p><strong>Computer name:</strong></p>
 			<p><strong>Model:</strong></p>
@@ -27,7 +27,7 @@
 			<p><strong>Warrenty Expiration:</strong></p>
 			<p><strong>Last Updated:</strong></p>
 		</div>
-		<div class="col-sm-6">
+		<div id="info" class="col-sm-6">
 			<p>{{ asset.computer_name }}</p>
 			<p>{{ asset.model }}</p>
 			<p>{{ asset.os }}</p>
@@ -37,10 +37,42 @@
 			<p>{{ asset.warrenty_expiration }}</p>
 			<p>{{ asset.last_updated }}</p>
 		</div>
-	</div>
+  </div>
+  <form id="info_form" class="hidden" method="post">
+    {% csrf_token %}
+
+    <label for="computer_name">Computer Name</label>
+		{{ form.computer_name|addclass:'form-control'}}
+
+		<label for="model">Model</label>
+		{{ form.model|addclass:'form-control'}}
+
+		<label for="os">Operating System</label>
+		{{ form.os|addclass:'form-control'}}
+
+		<label for="serial">Serial Number/Express Service Code</label>
+		{{ form.serial|addclass:'form-control'}}
+
+		<label for="service_tag">Service Tag</label>
+		{{ form.service_tag|addclass:'form-control'}}
+
+
+		<label for="warrenty_expiration">Warrenty Expiration</label><br>
+		{{ form.warrenty_expiration|addclass:'form-control date-input'}}
+
+		<label for="date_purchased">Date Purchased</label><br>
+		{{ form.date_purchased|addclass:'form-control date-input'}}
+
+    <p align="right">
+      <button id="save_info" type="submit" class="edit-save">save</button>
+    </p>
+  </form>
 	<br>
-	<p align="right"><a id="edit_asset" href="#">edit</a></p>
+  <p align="right">
+    <button id="edit_info" class="edit-save" onclick="editInfo()">edit</button>
+  </p>
 </div>
+<!--end asset information card-->
 
 <!--Notes Cardd-->
 <div class="info-card shadow">

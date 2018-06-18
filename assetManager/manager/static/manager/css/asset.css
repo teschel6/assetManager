@@ -58,3 +58,7 @@ button.edit-save{
   outline: inherit;
   cursor: pointer;
 }
+
+.form-control{
+  margin-bottom: 0em;
+}

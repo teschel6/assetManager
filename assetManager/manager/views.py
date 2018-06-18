@@ -17,11 +17,38 @@ def index(request):
 
 #View Asset details by asset tag view
 def asset(request, asset_tag):
+	#get asset by asset tag number
 	asset = Inventory.objects.get(pk=asset_tag)
+	#process update information request
 	if request.method == 'POST':
 		form = EditInventory(request.POST)
 		if form.is_valid():
-			asset.notes = form.cleaned_data['notes']
+			changed = bool(0)
+			#update attributes if only if form field is filled
+			if form['notes'].value():
+				asset.notes = form.cleaned_data['notes']
+				changed = True
+			if form['computer_name'].value():
+				asset.computer_name = form.cleaned_data['computer_name']
+				changed = True
+			if form['model'].value():
+				asset.model = form.cleaned_data['model']
+				changed = True
+			if form['os'].value():
+				asset.os = form.cleaned_data['os']
+				changed = True
+			if form['serial'].value():
+				asset.serial = form.cleaned_data['serial']
+				changed = True
+			if form['service_tag'].value():
+				asset.service_tag = form.cleaned_data['service_tag']
+				changed = True
+			if form['warrenty_expiration'].value():
+				asset.warrenty_expiration = form.cleaned_data['warrenty_expiration']
+				changed = True
+			if form['date_purchased'].value():
+				asset.purchase_date = form.cleaned_data['date_purchased']
+				changed = True
 			asset.last_updated = datetime.date.today()
 			asset.save()
 			return HttpResponseRedirect('/'+str(asset_tag))

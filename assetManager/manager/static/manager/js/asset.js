@@ -6,3 +6,9 @@ function editNotes(){
   $('#edit_notes').hide()
   $('#notes_form').show()
 }
+
+function editInfo(){
+  $('#info').hide()
+  $('#edit_info').hide()
+  $('#info_form').show()
+}
