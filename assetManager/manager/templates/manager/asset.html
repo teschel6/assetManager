@@ -81,8 +81,25 @@
 <!--History Card-->
 <div class="info-card history shadow">
 	<h2 class="cardd_header">History</h2>
-	<hr>
-	<br><br><br><br><br><br>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>username</th>
+      <th>location</th>
+      <th>issued</th>
+      <th>returned</th>
+    </tr>
+    </thead>
+    {% for h in history %}
+    <tr>
+      <td> {{ h.username }} </td>
+      <td> {{ h.location }} </td>
+      <td> {{ h.date_issued }} </td>
+      <td> {{ h.date_returned }} </td>
+    </tr>
+    {% endfor %}
+  </table>
 </div>
 
 </div>

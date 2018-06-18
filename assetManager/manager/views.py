@@ -25,6 +25,9 @@ def asset(request, asset_tag):
 	except Deployed.DoesNotExist:
 		deployed = Deployed(username = 'undeployed')
 	context['deployed'] = deployed
+	#Get deployment History
+	history = History.objects.filter(asset_tag=asset)
+	context['history'] = history
 	return render(request, 'manager/index.html',context)
 
 #Add inventory form view
@@ -39,7 +42,7 @@ def add(request):
 				Inventory.objects.get(pk=a)
 				print("Asset Tag already exists")
 				message = 'Oops! It looks like ' + '#' + str(a) + ' is already in inventory.'
-				messages.add_message(request, messages.WARNING,message)			
+				messages.add_message(request, messages.WARNING,message)
 			except Inventory.DoesNotExist:
 				#if unused add new asset to inventory
 				i = Inventory(asset_tag = form.cleaned_data['asset_tag'])
@@ -58,7 +61,7 @@ def add(request):
 	else:
 		form = AddInventory()
 
-	context = {'sub_template':'manager/add.html','form':form} 
+	context = {'sub_template':'manager/add.html','form':form}
 	return render(request, 'manager/index.html',context)
 
 
@@ -79,7 +82,7 @@ def deploy(request):
 					#if undeployed than deploy
 					d = Deployed(asset_tag = i)
 					d.username = form.cleaned_data['username']
-					#add location
+					d.location = form.cleaned_data['location']
 					d.group = Group.objects.get( pk = form.cleaned_data['group'])
 					d.date_issued = datetime.date.today()
 					d.save() #add to database
@@ -92,7 +95,7 @@ def deploy(request):
 				messages.add_message(request, messages.WARNING,message)
 	else:
 		form = DeployInventory()
-	
+
 	context = {'sub_template':'manager/deploy.html','today':datetime.date.today(),'form':form}
 	return render(request, 'manager/index.html',context)
 
@@ -111,7 +114,7 @@ def receive(request):
 					h.username = d.username
 					h.location = d.location
 					h.date_issued = d.date_issued
-					h.date_returned = datetime.date.today() 
+					h.date_returned = datetime.date.today()
 					h.save()
 					d.delete()
 					message = "Success, " + '#' + str(a) + " has been undeployed."
@@ -125,7 +128,7 @@ def receive(request):
 				message = "Oops! " + '#' + str(a) + " does not exist in inventory."
 				messages.add_message(request, messages.WARNING, message)
 			return HttpResponseRedirect('/receive')
-	else: 
+	else:
 		form = ReceiveInventory(request.POST)
 
 	context = {'sub_template':'manager/receive.html','form':form}

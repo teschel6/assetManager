@@ -26,7 +26,7 @@ SECRET_KEY = '9om(0!wl##czb(fvqk^8$d2%p_s21)d64*3^rz+7zfq@5)xz3t'
 DEBUG = True
 
 #SECURITY WARNING For development only
-ALLOWED_HOSTS = ['172.16.34.29']
+ALLOWED_HOSTS = ['172.16.34.29','172.17.38.58']
 
 
 # Application definition
