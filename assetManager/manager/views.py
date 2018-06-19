@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 
 from .forms import *
 from .models import *
@@ -14,6 +15,26 @@ def index(request):
 	#todo: CHANGE INDEX TO LOGIN
 	context = {} #add no sub_template
 	return render(request, 'manager/index.html',context)
+
+def selectAsset(request):
+	if request.method == 'GET':
+		form = getAsset(request.GET)
+		if form.is_valid():
+			a = form.cleaned_data['asset_tag']
+			try:
+				Inventory.objects.get(pk=a)
+				url = '/'+str(a)
+				print("goto " + url)
+				return HttpResponseRedirect('/'+str(a))
+			except Inventory.DoesNotExist:
+				message = "Oops! It looks like " + '#' + str(a) + " does not exist in inventory."
+				messages.add_message(request, messages.WARNING, message)
+	else:
+		form = selectAsset()
+	context = {'sub_template':'manager/selectAsset.html','form':form}
+	return render(request, 'manager/index.html',context)
+
+
 
 #View Asset details by asset tag view
 def asset(request, asset_tag):

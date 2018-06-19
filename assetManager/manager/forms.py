@@ -24,6 +24,10 @@ class AddInventory(forms.Form):
 	warr_exp = forms.DateField(widget=forms.SelectDateWidget(years=year_range),required=False)
 	date_purchased = forms.DateField(widget=forms.SelectDateWidget(years=year_range),required=False)
 
+class getAsset(forms.Form):
+	asset_tag = forms.IntegerField(required=True)
+	asset_tag.widget.attrs.update({'autocomplete':'off'})
+
 class EditInventory(forms.Form):
 	computer_name = forms.CharField(max_length=32,required=False)
 	computer_name.widget.attrs.update({'autocomplete':'off'})
