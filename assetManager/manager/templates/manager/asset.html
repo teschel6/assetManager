@@ -10,34 +10,49 @@
 
 <div class="row">
 
-<div class="col-md-12 col-lg-6">
+<div class="col-lg-12 col-xl-6">
 
 <!--Asset Infromation Cardd-->
 <div class="info-card shadow">
 	<h2 class="cardd_header">#{{ asset.asset_tag }}</h2>
 	<hr>
-	<div class="row" id="info">
-		<div class="col-sm-6">
-			<p><strong>Computer name:</strong></p>
-			<p><strong>Model:</strong></p>
-			<p><strong>Operating System:</strong></p>
-			<p><strong>Serial:</strong></p>
-			<p><strong>Service Tag:</strong></p>
-			<p><strong>Purchased:</strong></p>
-			<p><strong>Warrenty Expiration:</strong></p>
-			<p><strong>Last Updated:</strong></p>
-		</div>
-		<div id="info" class="col-sm-6">
-			<p>{{ asset.computer_name }}</p>
-			<p>{{ asset.model }}</p>
-			<p>{{ asset.os }}</p>
-			<p>{{ asset.serial }}</p>
-			<p>{{ asset.service_tag }}</p>
-			<p>{{ asset.purchase_date }}</p>
-			<p>{{ asset.warrenty_expiration }}</p>
-			<p>{{ asset.last_updated }}</p>
-		</div>
-  </div>
+	<table id="info">
+    <tr>
+      <td><strong>Computer name:</strong></td>
+      <td>{{ asset.computer_name }}</td>
+    </tr>
+    <tr>
+      <td><strong>Model:</strong></td>
+      <td>{{ asset.model }}</td>
+    </tr>
+    <tr>
+      <td><strong>Operating System:</strong></td>
+      <td>{{ asset.os }}</td>
+    </tr>
+    <tr>
+      <td><strong>Serial:</strong></td>
+      <td>{{ asset.serial }}</td>
+    </tr>
+    <tr>
+      <td><strong>Service Tag:</strong></td>
+      <td>{{ asset.service_tag }}</td>
+    </tr>
+    <tr>
+      <td><strong>Purchased:</strong></td>
+      <td>{{ asset.purchase_date }}</td>
+    </tr>
+    <tr>
+      <td><strong>Warrenty Expiration:</strong></td>
+      <td>{{ asset.warrenty_expiration }}</td>
+    </tr>
+    <tr>
+      <td><strong>Last Updated:</strong></td>
+      <td>{{ asset.last_updated }}</td>
+    </tr>
+
+  </table>
+
+  <!--Hidden Form-->
   <form id="info_form" class="hidden" method="post">
     {% csrf_token %}
 
@@ -94,7 +109,7 @@
 
 </div>
 
-<div class="col-md-12 col-lg-6">
+<div class="col-lg-12 col-xl-6">
 
 <!--Status Card-->
 <div class="info-card shadow">
@@ -127,7 +142,7 @@
 <!--History Card-->
 <div class="info-card history shadow">
 	<h2 class="cardd_header">History</h2>
-  <table class="table scroll">
+  <table id="history-table" class="fixed_header">
     <thead>
     <tr>
       <th>username</th>
@@ -136,6 +151,7 @@
       <th>returned</th>
     </tr>
     </thead>
+    <tbody>
     {% for h in history %}
     <tr>
       <td> {{ h.username }} </td>
@@ -144,6 +160,7 @@
       <td> {{ h.date_returned }} </td>
     </tr>
     {% endfor %}
+    </tbody>
   </table>
 
 </div>
