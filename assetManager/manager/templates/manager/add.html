@@ -6,12 +6,12 @@
 <div class="cardd shadow">
 	<h2 class="cardd_header">Add New Inventory</h2>
 	<hr>
-	<form action="" method="post">			
+	<form action="" method="post">
 		{% csrf_token %}
 
 		<label for="asset_tag">Asset Tag</label>
 		{{ form.asset_tag|addclass:'form-control'}}
-		
+
 		<label for="computer_name">Computer Name</label>
 		{{ form.computer_name|addclass:'form-control'}}
 
@@ -26,16 +26,16 @@
 
 		<label for="service_tag">Service Tag</label>
 		{{ form.service_tag|addclass:'form-control'}}
-		
-				
+
+
 		<label for="warr_exp">Warrenty Expiration</label><br>
 		{{ form.warr_exp|addclass:'form-control date-input'}}
 
 		<label for="date_purchased">Date Purchased</label><br>
 		{{ form.date_purchased|addclass:'form-control date-input'}}
-		
+
 		<div style="text-align:right; margin-top: 2em">
-			<button type="submit" class="btn-lg btn-success btn-wide">ADD</button>
+			<button type="submit" class="btn btn-lg btn-success btn-wide">ADD</button>
 		</div>
 	</form>
 </div>

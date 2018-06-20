@@ -7,14 +7,14 @@
 	<hr>
 	<form action="" method="post">
 		{% csrf_token %}
-		
+
 		<label for="asset_tag">Asset Tag</label>
 		{{ form.asset_tag|addclass:'form-control'}}
 		<br>
 		<p> Current User: username <p>
 		<p> Date Issued: 00-00-00</p>
 		<div style="text-align:right">
-			<button type="submit" class="btn-lg btn-warning btn-wide">RECEIVE</button>
+			<button type="submit" class="btn btn-lg btn-warning btn-wide">RECEIVE</button>
 		</div>
 	</form>
 </div>

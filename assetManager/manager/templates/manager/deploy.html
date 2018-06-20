@@ -6,28 +6,28 @@
 	<h2 class="cardd_header">Deploy Inventory</h2>
 	<hr>
 	<form action="" method="post">
-		
+
 		{% csrf_token %}
-		
+
 		<label for="asset_tag">Asset Tag</label>
 		{{ form.asset_tag|addclass:'form-control'}}
-		
+
 		<label for="username">Username</label>
 		{{ form.username|addclass:'form-control'}}
 
 		<label for="location">Location</label>
 		{{ form.location|addclass:'form-control'}}
-		
+
 		<label for="group">Group</label>
 		{{ form.group|addclass:'form-control'}}
-		
+
 		<br>
 		<p>
 			<label>Date Issued: {{today}}</label>
 		</p>
-		
+
 		<div style="text-align:right; margin-top:2em;">
-				<button type="submit" class="btn-lg btn-success btn-wide">DEPLOY</button>
+				<button type="submit" class="btn btn-lg btn-success btn-wide">DEPLOY</button>
 		</div>
 	</form>
 </div>
