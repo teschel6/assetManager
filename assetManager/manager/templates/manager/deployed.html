@@ -1,0 +1,52 @@
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css"
+  href="{% static 'manager/css/inventory-view.css' %}"/>
+
+<!--Main inventory card-->
+<div id="inventory-card" class="shadow">
+  <h1 id=inventory-header>Deployed Inventory</h1>
+
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Username</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+    <tbody>
+      {% for d in deployed %}
+        <tr>
+          <td>{{ d.asset_tag.asset_tag }}</td>
+          <td>{{ d.username }}</td>
+          <td>{{ d.location }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div id="paginator-container" class="row justify-content-center">
+    {% if deployed.has_other_pages %}
+      <ul class="pagination">
+        {% if deployed.has_previous %}
+          <li><a href="?page={{ deployed.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+
+        <li class="active"><span>{{ deployed.number }} <span class="sr-only">(current)</span></span></li>
+        <span>/</span>
+        <li><a href="?page={{ deployed.paginator.num_pages }}">{{ deployed.paginator.num_pages }}</a></li>
+
+        {% if deployed.has_next %}
+          <li><a href="?page={{ deployed.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+      {% endif %}
+    </div>
+
+</div>

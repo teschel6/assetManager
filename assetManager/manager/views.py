@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import *
 from .models import *
@@ -14,6 +15,20 @@ import datetime
 def index(request):
 	#todo: CHANGE INDEX TO LOGIN
 	context = {} #add no sub_template
+	return render(request, 'manager/index.html',context)
+
+#Deployed inventory view
+def deployed(request):
+	deployed_list = Deployed.objects.all()
+	page = request.GET.get('page', 1)
+	paginator = Paginator(deployed_list, 50)
+	try:
+	    deployed = paginator.page(page)
+	except PageNotAnInteger:
+	    deployed = paginator.page(1)
+	except EmptyPage:
+	    deployed = paginator.page(paginator.num_pages)
+	context = {'sub_template':'manager/deployed.html','deployed':deployed}
 	return render(request, 'manager/index.html',context)
 
 def selectAsset(request):
