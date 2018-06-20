@@ -1,0 +1,172 @@
+{% load static %}
+{% load addCSS %}
+
+<script src="{% static 'manager/js/asset.js' %}"></script>
+
+<link rel="stylesheet" type="text/css"
+     href="{% static 'manager/css/asset.css' %}"/>
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-lg-12 col-xl-6">
+
+<!--Asset Infromation Cardd-->
+<div class="info-card shadow">
+	<h2 class="cardd_header">#{{ asset.asset_tag }}</h2>
+	<hr>
+	<table id="info">
+    <tr>
+      <td><strong>Computer name:</strong></td>
+      <td>{{ asset.computer_name }}</td>
+    </tr>
+    <tr>
+      <td><strong>Model:</strong></td>
+      <td>{{ asset.model }}</td>
+    </tr>
+    <tr>
+      <td><strong>Operating System:</strong></td>
+      <td>{{ asset.os }}</td>
+    </tr>
+    <tr>
+      <td><strong>Serial:</strong></td>
+      <td>{{ asset.serial }}</td>
+    </tr>
+    <tr>
+      <td><strong>Service Tag:</strong></td>
+      <td>{{ asset.service_tag }}</td>
+    </tr>
+    <tr>
+      <td><strong>Purchased:</strong></td>
+      <td>{{ asset.purchase_date }}</td>
+    </tr>
+    <tr>
+      <td><strong>Warrenty Expiration:</strong></td>
+      <td>{{ asset.warrenty_expiration }}</td>
+    </tr>
+    <tr>
+      <td><strong>Last Updated:</strong></td>
+      <td>{{ asset.last_updated }}</td>
+    </tr>
+
+  </table>
+
+  <!--Hidden Form-->
+  <form id="info_form" class="hidden" method="post">
+    {% csrf_token %}
+
+    <label for="computer_name">Computer Name</label>
+		{{ form.computer_name|addclass:'form-control'}}
+
+		<label for="model">Model</label>
+		{{ form.model|addclass:'form-control'}}
+
+		<label for="os">Operating System</label>
+		{{ form.os|addclass:'form-control'}}
+
+		<label for="serial">Serial Number/Express Service Code</label>
+		{{ form.serial|addclass:'form-control'}}
+
+		<label for="service_tag">Service Tag</label>
+		{{ form.service_tag|addclass:'form-control'}}
+
+
+		<label for="warrenty_expiration">Warrenty Expiration</label><br>
+		{{ form.warrenty_expiration|addclass:'form-control date-input'}}
+
+		<label for="date_purchased">Date Purchased</label><br>
+		{{ form.date_purchased|addclass:'form-control date-input'}}
+
+    <p align="right">
+      <button id="save_info" type="submit" class="edit-save">save</button>
+    </p>
+  </form>
+	<br>
+  <p align="right">
+    <button id="edit_info" class="edit-save" onclick="editInfo()">edit</button>
+  </p>
+</div>
+<!--end asset information card-->
+
+<!--Notes Cardd-->
+<div class="info-card shadow">
+        <h2 class="cardd_header">Notes:</h2>
+        <hr>
+        <p id='notes'>{{ asset.notes }}</p>
+        <form id='notes_form' class="hidden" action="" method="post">
+      		{% csrf_token %}
+          {{ form.notes|addclass:'form-control'}}
+          <p align="right">
+            <button id="save_notes" type="submit" class="edit-save" onclick="saveNotes()">save</button>
+          </p>
+        </form>
+        <p align="right">
+          <button id="edit_notes" class="edit-save" onclick="editNotes()">edit</button>
+        </p>
+</div>
+
+
+</div>
+
+<div class="col-lg-12 col-xl-6">
+
+<!--Status Card-->
+<div class="info-card shadow">
+			<h2 class="cardd_header">Status
+			{% if deployed.username == "undeployed" %}
+        		<span class="indicator indicator-amber"></span>
+        		{% elif  deployed.username != "undeployed" %}
+        		<span class="indicator indicator-green"></span>
+        		{% endif %}
+			</h2>
+        <hr>
+        <div class="row">
+                <div class="col-sm-6">
+                    <p><strong>Username:</strong></p>
+                    <p><strong>Location:</strong></p>
+                    <p><strong>Date Issued:</strong></p>
+                    <p><strong>Group:</strong></p>
+                </div>
+                <div class="col-sm-6">
+                	{% if deployed %}
+			               <p> {{ deployed.username }} </p>
+                     <p> {{ deployed.location }} </p>
+			               <p> {{ deployed.date_issued }} </p>
+			               <p> {{ deployed.group.group }} </p>
+			            {% endif %}
+                </div>
+        </div>
+</div>
+
+<!--History Card-->
+<div class="info-card history shadow">
+	<h2 class="cardd_header">History</h2>
+  <table id="history-table" class="fixed_header">
+    <thead>
+    <tr>
+      <th>username</th>
+      <th>location</th>
+      <th>issued</th>
+      <th>returned</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for h in history %}
+    <tr>
+      <td> {{ h.username }} </td>
+      <td> {{ h.location }} </td>
+      <td> {{ h.date_issued }} </td>
+      <td> {{ h.date_returned }} </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>

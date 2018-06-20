@@ -1,0 +1,105 @@
+/*CSS styling for asset page*/
+/*Author: Teschel6*/
+/*Date: June 15th 2018*/
+
+/*imported in asset.html*/
+
+/*Custom card for asset view*/
+div.info-card{
+        background-color: white;
+        border-radius: 10px;
+        margin: auto;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        width: 100%;
+        padding: 2rem;
+        max-width: 40rem;
+}
+
+/* info card table */
+#info{
+  width: 100%;
+}
+#info tr{
+  width: 100%;
+}
+#info td{
+  padding: 0.5em;
+}
+
+/* fixed header scroll box for history card table */
+.fixed_header{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 19rem;
+}
+
+.fixed_header thead tr {
+   display: block;
+   border-bottom: 2px solid lightgray;
+}
+
+.fixed_header tbody tr{
+  border-top: 1px solid lightgray;
+}
+
+.fixed_header thead {
+  color:black;
+}
+
+.fixed_header th, .fixed_header td {
+  padding: 6px;
+  text-align: left;
+  width: 200px;
+}
+
+
+div.history{
+  height: 28rem;
+}
+
+/* Indicator dot */
+.indicator{
+	width: 0.8em;
+	height: 0.8em;
+	border-radius: 50%;
+	display: inline-block;
+	float: right;
+	margin: 0.2em;
+}
+
+/* Indicator color options */
+.indicator-green{
+	background-color: #5cb85c;
+}
+
+.indicator-amber{
+	background-color: #ffbf00;
+}
+
+/* Hide element initially */
+.hidden{
+  display: none;
+}
+
+/* Custom plain button*/
+button.edit-save{
+  color: #4a86e8;
+  background: none;
+  display: block;
+  border: none;
+  font: inherit;
+  outline: inherit;
+  cursor: pointer;
+}
+
+.form-control{
+  margin-bottom: 0em;
+}

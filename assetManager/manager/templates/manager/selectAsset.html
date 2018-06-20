@@ -1,0 +1,14 @@
+<!--Select Asset by asset tag prompt-->
+{% load addCSS %}
+
+<div class="cardd shadow" method="post">
+        <h2 class="cardd_header">Enter Asset Tag</h2>
+        <form method="get">
+            <br><br>
+		        {{ form.asset_tag|addclass:'form-control'}}
+		        <br><br>
+		        <div style="text-align:right">
+              <button type="submit" class="btn btn-lg btn-primary btn-wide">GO</button>
+		        </div>
+        </form>
+</div>

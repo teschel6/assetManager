@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 
 from .forms import *
 from .models import *
@@ -15,6 +16,76 @@ def index(request):
 	context = {} #add no sub_template
 	return render(request, 'manager/index.html',context)
 
+def selectAsset(request):
+	if request.method == 'GET':
+		form = getAsset(request.GET)
+		if form.is_valid():
+			a = form.cleaned_data['asset_tag']
+			try:
+				Inventory.objects.get(pk=a)
+				url = '/'+str(a)
+				print("goto " + url)
+				return HttpResponseRedirect('/'+str(a))
+			except Inventory.DoesNotExist:
+				message = "Oops! It looks like " + '#' + str(a) + " does not exist in inventory."
+				messages.add_message(request, messages.WARNING, message)
+	else:
+		form = selectAsset()
+	context = {'sub_template':'manager/selectAsset.html','form':form}
+	return render(request, 'manager/index.html',context)
+
+
+
+#View Asset details by asset tag view
+def asset(request, asset_tag):
+	#get asset by asset tag number
+	asset = Inventory.objects.get(pk=asset_tag)
+	#process update information request
+	if request.method == 'POST':
+		form = EditInventory(request.POST)
+		if form.is_valid():
+			changed = bool(0)
+			#update attributes if only if form field is filled
+			if form['notes'].value():
+				asset.notes = form.cleaned_data['notes']
+				changed = True
+			if form['computer_name'].value():
+				asset.computer_name = form.cleaned_data['computer_name']
+				changed = True
+			if form['model'].value():
+				asset.model = form.cleaned_data['model']
+				changed = True
+			if form['os'].value():
+				asset.os = form.cleaned_data['os']
+				changed = True
+			if form['serial'].value():
+				asset.serial = form.cleaned_data['serial']
+				changed = True
+			if form['service_tag'].value():
+				asset.service_tag = form.cleaned_data['service_tag']
+				changed = True
+			if form['warrenty_expiration'].value():
+				asset.warrenty_expiration = form.cleaned_data['warrenty_expiration']
+				changed = True
+			if form['date_purchased'].value():
+				asset.purchase_date = form.cleaned_data['date_purchased']
+				changed = True
+			asset.last_updated = datetime.date.today()
+			asset.save()
+			return HttpResponseRedirect('/'+str(asset_tag))
+	else:
+		form = EditInventory()
+	context = {'sub_template':'manager/asset.html','asset':asset,'form':form}
+	#Get deployment status
+	try:
+		deployed = Deployed.objects.get(pk=asset)
+	except Deployed.DoesNotExist:
+		deployed = Deployed(username = 'undeployed')
+	context['deployed'] = deployed
+	#Get deployment History
+	history = History.objects.filter(asset_tag=asset).order_by('-date_issued')
+	context['history'] = history
+	return render(request, 'manager/index.html',context)
 
 #Add inventory form view
 def add(request):
@@ -28,7 +99,7 @@ def add(request):
 				Inventory.objects.get(pk=a)
 				print("Asset Tag already exists")
 				message = 'Oops! It looks like ' + '#' + str(a) + ' is already in inventory.'
-				messages.add_message(request, messages.WARNING,message)			
+				messages.add_message(request, messages.WARNING,message)
 			except Inventory.DoesNotExist:
 				#if unused add new asset to inventory
 				i = Inventory(asset_tag = form.cleaned_data['asset_tag'])
@@ -47,7 +118,7 @@ def add(request):
 	else:
 		form = AddInventory()
 
-	context = {'sub_template':'manager/add.html','form':form} 
+	context = {'sub_template':'manager/add.html','form':form}
 	return render(request, 'manager/index.html',context)
 
 
@@ -68,7 +139,7 @@ def deploy(request):
 					#if undeployed than deploy
 					d = Deployed(asset_tag = i)
 					d.username = form.cleaned_data['username']
-					#add location
+					d.location = form.cleaned_data['location']
 					d.group = Group.objects.get( pk = form.cleaned_data['group'])
 					d.date_issued = datetime.date.today()
 					d.save() #add to database
@@ -81,7 +152,7 @@ def deploy(request):
 				messages.add_message(request, messages.WARNING,message)
 	else:
 		form = DeployInventory()
-	
+
 	context = {'sub_template':'manager/deploy.html','today':datetime.date.today(),'form':form}
 	return render(request, 'manager/index.html',context)
 
@@ -100,7 +171,7 @@ def receive(request):
 					h.username = d.username
 					h.location = d.location
 					h.date_issued = d.date_issued
-					h.date_returned = datetime.date.today() 
+					h.date_returned = datetime.date.today()
 					h.save()
 					d.delete()
 					message = "Success, " + '#' + str(a) + " has been undeployed."
@@ -114,7 +185,7 @@ def receive(request):
 				message = "Oops! " + '#' + str(a) + " does not exist in inventory."
 				messages.add_message(request, messages.WARNING, message)
 			return HttpResponseRedirect('/receive')
-	else: 
+	else:
 		form = ReceiveInventory(request.POST)
 
 	context = {'sub_template':'manager/receive.html','form':form}

@@ -10,4 +10,6 @@ urlpatterns = [
     path('deploy/',views.deploy, name='deploy'),
     path('receive/',views.receive, name='receive'),
     path('addgrp/',views.addgrp, name='addgrp'),
+    path('<int:asset_tag>/',views.asset, name='asset'),
+    path('select/',views.selectAsset, name='selectAsset'),
 ]

@@ -36,9 +36,6 @@ class Deployed(models.Model):
 class History(models.Model):
     asset_tag = models.ForeignKey(Inventory, on_delete=models.CASCADE)
     username = models.CharField(max_length = 32)
-    loaction = models.CharField(max_length = 32)
+    location = models.CharField(max_length = 32)
     date_issued = models.DateField()
     date_returned = models.DateField()
-
-
-

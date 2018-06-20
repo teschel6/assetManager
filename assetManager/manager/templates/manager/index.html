@@ -18,7 +18,7 @@
 			<ul class="menu_list">
 				<li class="menu_item">deployed</li>
 				<li class="menu_item">undeployed</li>
-				<li class="menu_item">by asset tag</li>
+				<li class="menu_item"><a href='/select'>by asset tag</a></li>
 				<li class="menu_item">by group</li>
 			</ul>
 		<h3 class="menu_title">Actions</h3>
@@ -49,7 +49,7 @@
 				{{ message }}
   			</div>
 		{% endfor %}
-		{% endif %}		
+		{% endif %}
 		<!--import sub template from context-->
 		{% if sub_template %}
 			{% include sub_template %}
