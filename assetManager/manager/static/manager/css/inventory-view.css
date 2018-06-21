@@ -6,19 +6,49 @@ inventory view */
 #inventory-card{
   background-color: white;
   border-radius: 10px;
-  margin: auto;
-  width: 90%;
-  margin-bottom: 5%;
-  margin-top: 5%;
-  min-height: 40rem;
+  margin: 1%;
   padding-top: 2rem;
+  padding-bottom: 1em;
+
+}
+#inventory-table{
+  overflow-x: auto;
+}
+
+#inventory-table td, #inventory-table th{
+  font-size: 0.8rem;
+}
+
+.asset_tag_label{
+    padding-left: 1.5rem !important;
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 #inventory-header{
-  margin-left: 2rem;
+  padding-left: 2rem;
 }
 
+.clickable-row:hover{
+  background-color: #ccc !important;
+  cursor: pointer;
+}
+
+/*//////////////////////////////////////////////*/
+
+/*Style paginator and paginator row*/
 #paginator-container{
-  justify-content: center;
-  font-size: 1.5em;
+  color: black;
+  font-size: 1.3rem;
+  padding: 0.5rem 2rem;
+}
+#paginator-container a{
+  padding: 0 0.6em;
+  color: black;
+}
+
+#paginator-container span.disabled{
+  color: lightGray;
+  padding: 0 0.6em;
 }

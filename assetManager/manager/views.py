@@ -21,7 +21,7 @@ def index(request):
 def deployed(request):
 	deployed_list = Deployed.objects.all()
 	page = request.GET.get('page', 1)
-	paginator = Paginator(deployed_list, 50)
+	paginator = Paginator(deployed_list, 45)
 	try:
 	    deployed = paginator.page(page)
 	except PageNotAnInteger:

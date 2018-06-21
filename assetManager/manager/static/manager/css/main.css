@@ -6,8 +6,8 @@ and other globaly used classes*/
 
 /*imported in index.html*/
 
-/*Material UI shadow*/ 
-.shadow{ 
+/*Material UI shadow*/
+.shadow{
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
@@ -19,7 +19,7 @@ div.container-fluid{
 
 /*Style side menu bar*/
 div.menu{
-	
+
 	background-color: #363647;
 	height: 100%;
 	width: 250px; /*fixed width*/
@@ -56,8 +56,8 @@ li.menu_item{
 li.menu_item:hover{
 	color: white;
 	background-color: #4a86e8;
-	cursor: pointer; 
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 
+	cursor: pointer;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px
 	2px rgba(0,0,0,0.24);
 }
 .menu_item a{
@@ -81,6 +81,7 @@ div.content{
 div.top_bar{
 	height: 5rem;
 	background-color: white;
+	overflow: auto;
 }
 
 
