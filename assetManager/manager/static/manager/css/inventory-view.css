@@ -1,0 +1,61 @@
+/* CSS style sheet for 
+deployed & undeployed & search results
+inventory view */
+/* Author: Teschel6 */
+
+/* card to display inventory table*/
+#inventory-card{
+  background-color: white;
+  border-radius: 10px;
+  margin: 1%;
+  padding-top: 2rem;
+  padding-bottom: 1em;
+  min-height: 50rem;
+  position: relative;
+  min-width: 80rem;
+}
+
+/*header for inventory card */
+#inventory-header{
+  padding-left: 2rem;
+}
+
+/* reduce table font size*/
+#inventory-table td, #inventory-table th{
+  font-size: 0.75rem;
+}
+
+tr.inventory-table-head a{
+  color: black;
+}
+/* first column styling */
+.asset_tag_label{
+    padding-left: 1.5rem !important;
+    color: black;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* highlight row on hover */
+.clickable-row:hover{
+  background-color: #ccc !important;
+  cursor: pointer;
+}
+
+/*//////////////////////////////////////////////*/
+
+/*Style paginator and paginator row*/
+#paginator-container{
+  color: black;
+  font-size: 1.3rem;
+  padding: 0.5rem 2rem;
+}
+#paginator-container a{
+  padding: 0 0.6em;
+  color: black;
+}
+
+#paginator-container span.disabled{
+  color: lightGray;
+  padding: 0 0.6em;
+}

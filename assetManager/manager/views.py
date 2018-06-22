@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import FieldDoesNotExist
 
 from .forms import *
 from .models import *
@@ -14,6 +16,33 @@ import datetime
 def index(request):
 	#todo: CHANGE INDEX TO LOGIN
 	context = {} #add no sub_template
+	return render(request, 'manager/index.html',context)
+
+#Deployed inventory view
+def deployed(request):
+	if request.method == 'GET':
+		#ORDER LIST
+		order = request.GET.get('order')
+		try:
+			#Order by primary attribute 
+			Deployed._meta.get_field(order)
+			deployed_list = Deployed.objects.all().order_by(str(order))
+		except FieldDoesNotExist:
+			deployed_list = Deployed.objects.select_related('asset_tag') #perform natural join with inventory 
+			#Sort by foreign key attribute (if None than ignore)
+			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag, order) is None ))
+
+		#GENERATE PAGINATOR FROM ORDERED LIST
+		page = request.GET.get('page')
+		paginator = Paginator(deployed_list, 100)
+		try:
+			deployed = paginator.page(page)
+		except PageNotAnInteger:
+			deployed = paginator.page(1)
+		except EmptyPage:
+			deployed = paginator.page(paginator.num_pages)
+	#Add context and render view
+	context = {'sub_template':'manager/deployed.html','deployed':deployed,'order':str(order)}
 	return render(request, 'manager/index.html',context)
 
 def selectAsset(request):

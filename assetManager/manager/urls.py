@@ -12,4 +12,5 @@ urlpatterns = [
     path('addgrp/',views.addgrp, name='addgrp'),
     path('<int:asset_tag>/',views.asset, name='asset'),
     path('select/',views.selectAsset, name='selectAsset'),
+    path('deployed/',views.deployed, name='deployed'),
 ]
