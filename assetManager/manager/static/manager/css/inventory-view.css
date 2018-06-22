@@ -1,4 +1,5 @@
-/* CSS style sheet for deployed & undeployed
+/* CSS style sheet for 
+deployed & undeployed & search results
 inventory view */
 /* Author: Teschel6 */
 
@@ -9,16 +10,29 @@ inventory view */
   margin: 1%;
   padding-top: 2rem;
   padding-bottom: 1em;
-
+  min-height: 50rem;
+  position: relative;
 }
+
+/*header for inventory card */
+#inventory-header{
+  padding-left: 2rem;
+}
+
+/*fix overflow for table*/
 #inventory-table{
   overflow-x: auto;
 }
 
+/* reduce table font size*/
 #inventory-table td, #inventory-table th{
   font-size: 0.8rem;
 }
 
+tr.inventory-table-head a{
+  color: black;
+}
+/* first column styling */
 .asset_tag_label{
     padding-left: 1.5rem !important;
     color: black;
@@ -26,10 +40,7 @@ inventory view */
     font-weight: bold;
 }
 
-#inventory-header{
-  padding-left: 2rem;
-}
-
+/* highlight row on hover */
 .clickable-row:hover{
   background-color: #ccc !important;
   cursor: pointer;

@@ -11,41 +11,43 @@
 <div id="inventory-card" class="shadow">
   <h1 id=inventory-header>Deployed Inventory</h1>
 
+  <!--Paginator container-->
   <div id="paginator-container" class="row">
     <div class="col">
       <small>Found {{ deployed.paginator.count }} results</small>
     </div>
     <div class="col text-right">
       {% if deployed.has_previous %}
-        <a href="?page={{ deployed.previous_page_number }}">&laquo;</a>
+        <a href="?order={{order}}&page={{ deployed.previous_page_number }}">&laquo;</a>
       {% else %}
         <span class="disabled">&laquo;</span>
       {% endif %}
         <span> Page {{ deployed.number }} of {{ deployed.paginator.num_pages }} </span>
 
       {% if deployed.has_next %}
-          <a href="?page={{ deployed.next_page_number }}">&raquo;</a>
+          <a href="?order={{order}}&page={{ deployed.next_page_number }}">&raquo;</a>
       {% else %}
           <span class="disabled">&raquo;</span></li>
       {% endif %}
     </div>
   </div>
+  <!--End paginator container-->
 
   <table id="inventory-table" class="table table-striped table-sm ">
   <thead>
-    <tr>
-      <th class="asset_tag_label">#</th>
-      <th>Username</th>
-      <th>Location</th>
-      <th>Issued</th>
-      <th>Computer Name</th>
-      <th>Model</th>
-      <th>Serial</th>
-      <th>Service Tag</th>
-      <th>Operating System</th>
-      <th>Purchase Date</th>
-      <th>Warrenty Exp.</th>
-      <th>Last Updated</th>
+    <tr class="inventory-table-head">
+      <th class="asset_tag_label"><a href="?order=asset_tag&page=1">#</a></th>
+      <th><a href="?order=username&page=1">Username</a></th>
+      <th><a href="?order=location&page=1">Location</a></th>
+      <th><a href="?order=date_issued&page=1">Issued</a></th>
+      <th><a href="?order=computer_name&page=1">Computer Name</a></th>
+      <th><a href="?order=model&page=1">Model</a></th>
+      <th><a href="?order=serial&page=1">Serial</a></th>
+      <th><a href="?order=service_tag&page=1">Service Tag</a></th>
+      <th><a href="?order=os&page=1">Operating System</a></th>
+      <th><a href="?order=purchase_date&page=1">Purchase Date</a></th>
+      <th><a href="?order=warrenty_expiration&page=1">Warrenty Exp.</a></th>
+      <th><a href="?order=last_updated&page=1">Last Updated</a></th>
     </tr>
   </thead>
     <tbody>
@@ -63,23 +65,21 @@
           <td>{{ d.asset_tag.purchase_date }}</td>
           <td>{{ d.asset_tag.warrenty_expiration }}</td>
           <td>{{ d.asset_tag.last_updated }}</td>
-
-
         </tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <div id="paginator-container" class="row justify-content-center">
+  <div id="paginator-container" class="row justify-content-center bottom">
     {% if deployed.has_previous %}
-      <a href="?page={{ deployed.previous_page_number }}">&laquo;</a>
+      <a href="?order={{order}}&page={{ deployed.previous_page_number }}">&laquo;</a>
     {% else %}
       <span class="disabled">&laquo;</span>
     {% endif %}
       <span> Page {{ deployed.number }} of {{ deployed.paginator.num_pages }} </span>
 
     {% if deployed.has_next %}
-        <a href="?page={{ deployed.next_page_number }}">&raquo;</a>
+        <a href="?order={{order}}&page={{ deployed.next_page_number }}">&raquo;</a>
     {% else %}
         <span class="disabled">&raquo;</span></li>
     {% endif %}
