@@ -12,6 +12,7 @@ inventory view */
   padding-bottom: 1em;
   min-height: 50rem;
   position: relative;
+  min-width: 80rem;
 }
 
 /*header for inventory card */
@@ -19,14 +20,9 @@ inventory view */
   padding-left: 2rem;
 }
 
-/*fix overflow for table*/
-#inventory-table{
-  overflow-x: auto;
-}
-
 /* reduce table font size*/
 #inventory-table td, #inventory-table th{
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 tr.inventory-table-head a{
