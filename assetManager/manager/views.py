@@ -31,7 +31,7 @@ def deployed(request):
 		except FieldDoesNotExist:
 			deployed_list = Deployed.objects.select_related('asset_tag') #perform natural join with inventory 
 			#Sort by foreign key attribute (if None than ignore)
-			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag, order) is None ))
+			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) 
 
 		#generate paginator from ordered list
 		page = request.GET.get('page')
@@ -51,6 +51,7 @@ def undeployed(request):
 	if request.method == 'GET':
 		#order list of deployed computer
 		order = str(request.GET.get('order'))
+		print("sort by: ", order)
 
 		#get undeployed list
 		undeployed_list = []
@@ -60,7 +61,7 @@ def undeployed(request):
 			except ObjectDoesNotExist:
 				undeployed_list.append(i)
 		#sort by 'order' attribute and ignore Null entries
-		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None)) 
+		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) 
 
 		#generate paginator from ordered list
 		page = request.GET.get('page')
