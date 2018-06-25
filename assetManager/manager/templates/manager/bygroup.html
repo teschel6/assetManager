@@ -19,14 +19,14 @@
    
     <div class="col text-right">
       {% if group.has_previous %}
-        <a href="?order={{order}}&page={{ group.previous_page_number }}&group={{ current_group }}">&laquo;</a>
+        <a href="?order={{order}}&page={{ group.previous_page_number }}&group={{ current_group.id }}">&laquo;</a>
       {% else %}
         <span class="disabled">&laquo;</span>
       {% endif %}
         <span> Page {{ group.number }} of {{ group.paginator.num_pages }} </span>
 
       {% if group.has_next %}
-          <a href="?order={{order}}&page={{ group.next_page_number }}&group={{ current_group }}">&raquo;</a>
+          <a href="?order={{order}}&page={{ group.next_page_number }}&group={{ current_group.id }}">&raquo;</a>
       {% else %}
           <span class="disabled">&raquo;</span></li>
       {% endif %}
@@ -34,7 +34,7 @@
   </div>
   <div id="group_selector">
     <select class="form-control" onchange="if (this.value) window.location.href=this.value">
-        <option value="" selected disabled hidden>{{ current_group }}</option>
+        <option value="" selected disabled hidden>{{ current_group.group }}</option>
         {% for g in group_selection %}
             <option value="?group={{g.id}}&order=asset_tag&page=1">{{ g.group }}</option>
         {% endfor %}
@@ -46,17 +46,17 @@
   <thead>
     <tr class="inventory-table-head">
       <th class="asset_tag_label"><a href="?order=asset_tag&page=1">#</a></th>
-      <th><a href="?order=username&page=1">Username &#9660;</a></th>
-      <th><a href="?order=location&page=1">Location &#9660;</a></th>
-      <th><a href="?order=date_issued&page=1">Issued &#9660;</a></th>
-      <th><a href="?order=computer_name&page=1">Computer Name &#9660;</a></th>
-      <th><a href="?order=model&page=1">Model &#9660;</a></th>
-      <th><a href="?order=serial&page=1">Serial &#9660;</a></th>
-      <th><a href="?order=service_tag&page=1">Service Tag &#9660;</a></th>
-      <th><a href="?order=os&page=1">Operating System &#9660;</a></th>
-      <th><a href="?order=purchase_date&page=1">Purchase Date &#9660;</a></th>
-      <th><a href="?order=warrenty_expiration&page=1">Warrenty Exp. &#9660;</a></th>
-      <th><a href="?order=last_updated&page=1">Last Updated &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=username&page=1">Username &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=location&page=1">Location &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=date_issued&page=1">Issued &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=computer_name&page=1">Computer Name &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=model&page=1">Model &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=serial&page=1">Serial &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=service_tag&page=1">Service Tag &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=os&page=1">Operating System &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=purchase_date&page=1">Purchase Date &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=warrenty_expiration&page=1">Warrenty Exp. &#9660;</a></th>
+      <th><a href="?group={{current_group.id}}&order=last_updated&page=1">Last Updated &#9660;</a></th>
     </tr>
   </thead>
     <tbody>
@@ -81,14 +81,14 @@
 
   <div id="paginator-container" class="row justify-content-center bottom">
     {% if group.has_previous %}
-        <a href="?order={{order}}&page={{ group.previous_page_number }}&group={{ current_group }}">&laquo;</a>
+        <a href="?order={{order}}&page={{ group.previous_page_number }}&group={{ current_group.id }}">&laquo;</a>
     {% else %}
         <span class="disabled">&laquo;</span>
     {% endif %}
         <span> Page {{ group.number }} of {{ group.paginator.num_pages }} </span>
 
     {% if group.has_next %}
-        <a href="?order={{order}}&page={{ group.next_page_number }}&group={{ current_group }}">&raquo;</a>
+        <a href="?order={{order}}&page={{ group.next_page_number }}&group={{ current_group.id }}">&raquo;</a>
     {% else %}
         <span class="disabled">&raquo;</span></li>
     {% endif %}

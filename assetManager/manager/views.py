@@ -31,7 +31,7 @@ def deployed(request):
 		except FieldDoesNotExist:
 			deployed_list = Deployed.objects.select_related('asset_tag') #perform natural join with inventory 
 			#Sort by foreign key attribute (if None than ignore)
-			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) 
+			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) #TODO IGNORE LOWER/UPPER When sorting
 
 		#generate paginator from ordered list
 		page = request.GET.get('page')
@@ -61,7 +61,7 @@ def undeployed(request):
 			except ObjectDoesNotExist:
 				undeployed_list.append(i)
 		#sort by 'order' attribute and ignore Null entries
-		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) 
+		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) #TODO IGNORE LOWER/UPPER When sorting
 
 		#generate paginator from ordered list
 		page = request.GET.get('page')
@@ -92,9 +92,9 @@ def bygroup(request):
 			group_list = Deployed.objects.filter(group=grp).order_by(order)
 		except FieldDoesNotExist:
 			group_list = Deployed.objects.filter(group=grp).select_related('asset_tag') #perform natural join with inventory 
-			#Sort by foreign key attribute (if None than ignore)
-			group_list = sorted(group_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) 
-
+			#Sort by foreign key attribute (if None than ignore) 
+			group_list = sorted(group_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) #TODO IGNORE LOWER/UPPER When sorting
+			
 		#generate paginator from ordered list
 		page = request.GET.get('page')
 		paginator = Paginator(group_list, 64)
@@ -106,7 +106,7 @@ def bygroup(request):
 			group = paginator.page(paginator.num_pages)
 	#add context and render view
 	context = {'sub_template':'manager/bygroup.html','group':group,'order':order,
-		'current_group':grp.group,'group_selection':Group.objects.all()}
+		'current_group':grp,'group_selection':Group.objects.all()}
 	return render(request, 'manager/index.html',context)
 
 #SELECT FORM FOR VIEW BY ASSET
