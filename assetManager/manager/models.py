@@ -19,7 +19,7 @@ class Inventory(models.Model):
     notes = models.CharField(max_length = 256,null=True)
 
 class Group(models.Model):
-    group = models.CharField(primary_key=True,max_length=32)
+    group = models.CharField(max_length=32)
 
 
 class Deployed(models.Model):
@@ -30,7 +30,7 @@ class Deployed(models.Model):
     )
     username = models.CharField(max_length = 32)
     location = models.CharField(max_length = 32)
-    group = models.ForeignKey(Group,on_delete=models.PROTECT)
+    group = models.ForeignKey(Group, on_delete=models.PROTECT)
     date_issued = models.DateField()
 
 class History(models.Model):

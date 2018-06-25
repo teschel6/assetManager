@@ -1,0 +1,97 @@
+
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css"
+  href="{% static 'manager/css/inventory-view.css' %}"/>
+
+<script src="{% static 'manager/js/inventory-view.js' %}"></script>
+
+<!--Main inventory card-->
+<div id="inventory-card" class="wider-card shadow">
+  <h1 id=inventory-header>Inventory By Group</h1>
+
+  <!--Paginator container-->
+  <div id="paginator-container" class="row">
+    <div class="col">
+      <small>Found {{ group.paginator.count }} results</small>
+    </div>
+   
+    <div class="col text-right">
+      {% if group.has_previous %}
+        <a href="?order={{order}}&page={{ group.previous_page_number }}&group={{ current_group }}">&laquo;</a>
+      {% else %}
+        <span class="disabled">&laquo;</span>
+      {% endif %}
+        <span> Page {{ group.number }} of {{ group.paginator.num_pages }} </span>
+
+      {% if group.has_next %}
+          <a href="?order={{order}}&page={{ group.next_page_number }}&group={{ current_group }}">&raquo;</a>
+      {% else %}
+          <span class="disabled">&raquo;</span></li>
+      {% endif %}
+    </div>
+  </div>
+  <div id="group_selector">
+    <select class="form-control" onchange="if (this.value) window.location.href=this.value">
+        <option value="" selected disabled hidden>{{ current_group }}</option>
+        {% for g in group_selection %}
+            <option value="?group={{g.id}}&order=asset_tag&page=1">{{ g.group }}</option>
+        {% endfor %}
+    </select>
+  </div>
+  <!--End paginator container-->
+
+  <table id="inventory-table" class="table table-striped table-sm ">
+  <thead>
+    <tr class="inventory-table-head">
+      <th class="asset_tag_label"><a href="?order=asset_tag&page=1">#</a></th>
+      <th><a href="?order=username&page=1">Username &#9660;</a></th>
+      <th><a href="?order=location&page=1">Location &#9660;</a></th>
+      <th><a href="?order=date_issued&page=1">Issued &#9660;</a></th>
+      <th><a href="?order=computer_name&page=1">Computer Name &#9660;</a></th>
+      <th><a href="?order=model&page=1">Model &#9660;</a></th>
+      <th><a href="?order=serial&page=1">Serial &#9660;</a></th>
+      <th><a href="?order=service_tag&page=1">Service Tag &#9660;</a></th>
+      <th><a href="?order=os&page=1">Operating System &#9660;</a></th>
+      <th><a href="?order=purchase_date&page=1">Purchase Date &#9660;</a></th>
+      <th><a href="?order=warrenty_expiration&page=1">Warrenty Exp. &#9660;</a></th>
+      <th><a href="?order=last_updated&page=1">Last Updated &#9660;</a></th>
+    </tr>
+  </thead>
+    <tbody>
+      {% for g in group %}
+        <tr class='clickable-row' data-href= "/{{g.asset_tag.asset_tag}}">
+          <td class="asset_tag_label">{{ g.asset_tag.asset_tag }}</td>
+          <td>{{ g.username }}</td>
+          <td>{{ g.location }}</td>
+          <td>{{ g.date_issued }}</td>
+          <td>{{ g.asset_tag.computer_name }}</td>
+          <td>{{ g.asset_tag.model }}</td>
+          <td>{{ g.asset_tag.serial }}</td>
+          <td>{{ g.asset_tag.service_tag }}</td>
+          <td>{{ g.asset_tag.os}}</td>
+          <td>{{ g.asset_tag.purchase_date }}</td>
+          <td>{{ g.asset_tag.warrenty_expiration }}</td>
+          <td>{{ g.asset_tag.last_updated }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div id="paginator-container" class="row justify-content-center bottom">
+    {% if group.has_previous %}
+        <a href="?order={{order}}&page={{ group.previous_page_number }}&group={{ current_group }}">&laquo;</a>
+    {% else %}
+        <span class="disabled">&laquo;</span>
+    {% endif %}
+        <span> Page {{ group.number }} of {{ group.paginator.num_pages }} </span>
+
+    {% if group.has_next %}
+        <a href="?order={{order}}&page={{ group.next_page_number }}&group={{ current_group }}">&raquo;</a>
+    {% else %}
+        <span class="disabled">&raquo;</span></li>
+    {% endif %}
+  </div>
+
+</div>
