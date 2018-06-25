@@ -8,24 +8,23 @@
 <script src="{% static 'manager/js/inventory-view.js' %}"></script>
 
 <!--Main inventory card-->
-<div id="inventory-card" class="wider-card shadow">
-  <h1 id=inventory-header>Deployed Inventory</h1>
+<div id="inventory-card" class="wide-card shadow">
+  <h1 id=inventory-header>Undeployed Inventory</h1>
 
   <!--Paginator container-->
   <div id="paginator-container" class="row">
     <div class="col">
-      <small>Found {{ deployed.paginator.count }} results</small>
+      <small>Found {{ undeployed.paginator.count }} results</small>
     </div>
     <div class="col text-right">
-      {% if deployed.has_previous %}
-        <a href="?order={{order}}&page={{ deployed.previous_page_number }}">&laquo;</a>
+      {% if undeployed.has_previous %}
+        <a href="?order={{order}}&page={{ undeployed.previous_page_number }}">&laquo;</a>
       {% else %}
         <span class="disabled">&laquo;</span>
       {% endif %}
-        <span> Page {{ deployed.number }} of {{ deployed.paginator.num_pages }} </span>
-
-      {% if deployed.has_next %}
-          <a href="?order={{order}}&page={{ deployed.next_page_number }}">&raquo;</a>
+        <span> Page {{ undeployed.number }} of {{ undeployed.paginator.num_pages }} </span>
+      {% if undeployed.has_next %}
+          <a href="?order={{order}}&page={{ undeployed.next_page_number }}">&raquo;</a>
       {% else %}
           <span class="disabled">&raquo;</span></li>
       {% endif %}
@@ -37,9 +36,6 @@
   <thead>
     <tr class="inventory-table-head">
       <th class="asset_tag_label"><a href="?order=asset_tag&page=1">#</a></th>
-      <th><a href="?order=username&page=1">Username &#9660;</a></th>
-      <th><a href="?order=location&page=1">Location &#9660;</a></th>
-      <th><a href="?order=date_issued&page=1">Issued &#9660;</a></th>
       <th><a href="?order=computer_name&page=1">Computer Name &#9660;</a></th>
       <th><a href="?order=model&page=1">Model &#9660;</a></th>
       <th><a href="?order=serial&page=1">Serial &#9660;</a></th>
@@ -51,35 +47,32 @@
     </tr>
   </thead>
     <tbody>
-      {% for d in deployed %}
-        <tr class='clickable-row' data-href= "/{{d.asset_tag.asset_tag}}">
-          <td class="asset_tag_label">{{ d.asset_tag.asset_tag }}</td>
-          <td>{{ d.username }}</td>
-          <td>{{ d.location }}</td>
-          <td>{{ d.date_issued }}</td>
-          <td>{{ d.asset_tag.computer_name }}</td>
-          <td>{{ d.asset_tag.model }}</td>
-          <td>{{ d.asset_tag.serial }}</td>
-          <td>{{ d.asset_tag.service_tag }}</td>
-          <td>{{ d.asset_tag.os}}</td>
-          <td>{{ d.asset_tag.purchase_date }}</td>
-          <td>{{ d.asset_tag.warrenty_expiration }}</td>
-          <td>{{ d.asset_tag.last_updated }}</td>
+      {% for d in undeployed %}
+        <tr class='clickable-row' data-href= "/{{d.asset_tag}}">
+          <td class="asset_tag_label">{{ d.asset_tag }}</td>
+          <td>{{ d.computer_name }}</td>
+          <td>{{ d.model }}</td>
+          <td>{{ d.serial }}</td>
+          <td>{{ d.service_tag }}</td>
+          <td>{{ d.os}}</td>
+          <td>{{ d.purchase_date }}</td>
+          <td>{{ d.warrenty_expiration }}</td>
+          <td>{{ d.last_updated }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 
   <div id="paginator-container" class="row justify-content-center bottom">
-    {% if deployed.has_previous %}
-      <a href="?order={{order}}&page={{ deployed.previous_page_number }}">&laquo;</a>
+    {% if undeployed.has_previous %}
+      <a href="?order={{order}}&page={{ undeployed.previous_page_number }}">&laquo;</a>
     {% else %}
       <span class="disabled">&laquo;</span>
     {% endif %}
-      <span> Page {{ deployed.number }} of {{ deployed.paginator.num_pages }} </span>
+      <span> Page {{ undeployed.number }} of {{ undeployed.paginator.num_pages }} </span>
 
-    {% if deployed.has_next %}
-        <a href="?order={{order}}&page={{ deployed.next_page_number }}">&raquo;</a>
+    {% if undeployed.has_next %}
+        <a href="?order={{order}}&page={{ undeployed.next_page_number }}">&raquo;</a>
     {% else %}
         <span class="disabled">&raquo;</span></li>
     {% endif %}

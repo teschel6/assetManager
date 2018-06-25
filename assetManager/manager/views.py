@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import FieldDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import *
 from .models import *
@@ -12,27 +13,27 @@ from django.contrib import messages
 
 import datetime
 
-#Default test view
+#DEFAULT TEST VIEW
 def index(request):
 	#todo: CHANGE INDEX TO LOGIN
 	context = {} #add no sub_template
 	return render(request, 'manager/index.html',context)
 
-#Deployed inventory view
+#DEPLOYED INVENTORY VIEW
 def deployed(request):
 	if request.method == 'GET':
-		#ORDER LIST
-		order = request.GET.get('order')
+		#order list of deployed computer
+		order = str(request.GET.get('order'))
 		try:
 			#Order by primary attribute 
 			Deployed._meta.get_field(order)
-			deployed_list = Deployed.objects.all().order_by(str(order))
+			deployed_list = Deployed.objects.all().order_by(order)
 		except FieldDoesNotExist:
 			deployed_list = Deployed.objects.select_related('asset_tag') #perform natural join with inventory 
 			#Sort by foreign key attribute (if None than ignore)
-			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag, order) is None ))
+			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) 
 
-		#GENERATE PAGINATOR FROM ORDERED LIST
+		#generate paginator from ordered list
 		page = request.GET.get('page')
 		paginator = Paginator(deployed_list, 100)
 		try:
@@ -42,9 +43,40 @@ def deployed(request):
 		except EmptyPage:
 			deployed = paginator.page(paginator.num_pages)
 	#Add context and render view
-	context = {'sub_template':'manager/deployed.html','deployed':deployed,'order':str(order)}
+	context = {'sub_template':'manager/deployed.html','deployed':deployed,'order':order}
 	return render(request, 'manager/index.html',context)
 
+#UNDEPLOYED INVENTORY VIEW
+def undeployed(request):
+	if request.method == 'GET':
+		#order list of deployed computer
+		order = str(request.GET.get('order'))
+		print("sort by: ", order)
+
+		#get undeployed list
+		undeployed_list = []
+		for i in Inventory.objects.all():
+			try:
+				i.deployed #check if deployed exist
+			except ObjectDoesNotExist:
+				undeployed_list.append(i)
+		#sort by 'order' attribute and ignore Null entries
+		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) 
+
+		#generate paginator from ordered list
+		page = request.GET.get('page')
+		paginator = Paginator(undeployed_list, 100)
+		try:
+			undeployed = paginator.page(page)
+		except PageNotAnInteger:
+			undeployed = paginator.page(1)
+		except EmptyPage:
+			undeployed = paginator.page(paginator.num_pages)
+	#add context and render view
+	context = {'sub_template':'manager/undeployed.html','undeployed':undeployed,'order':order}
+	return render(request, 'manager/index.html',context)
+
+#SELECT FORM FOR VIEW BY ASSET
 def selectAsset(request):
 	if request.method == 'GET':
 		form = getAsset(request.GET)

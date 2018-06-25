@@ -12,7 +12,12 @@ inventory view */
   padding-bottom: 1em;
   min-height: 50rem;
   position: relative;
+}
+.wider-card{
   min-width: 80rem;
+}
+.wide-card{
+  min-width: 60rem;
 }
 
 /*header for inventory card */
