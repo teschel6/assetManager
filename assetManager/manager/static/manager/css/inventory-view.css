@@ -1,6 +1,6 @@
 /* CSS style sheet for 
 deployed & undeployed & search results
-inventory view */
+& bygroup inventory views */
 /* Author: Teschel6 */
 
 /* card to display inventory table*/
@@ -63,4 +63,12 @@ tr.inventory-table-head a{
 #paginator-container span.disabled{
   color: lightGray;
   padding: 0 0.6em;
+}
+
+
+/*Style group selector*/
+#group_selector{
+  width: 20rem;
+  margin-left: 2rem;
+
 }

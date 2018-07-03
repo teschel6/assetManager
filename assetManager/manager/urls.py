@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import include, url
 
 from . import views
 
@@ -14,4 +15,5 @@ urlpatterns = [
     path('select/',views.selectAsset, name='selectAsset'),
     path('deployed/',views.deployed, name='deployed'),
     path('undeployed/',views.undeployed, name='undeployed'),
+    path('bygroup/',views.bygroup, name='bygroup'),
 ]

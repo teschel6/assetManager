@@ -31,11 +31,11 @@ def deployed(request):
 		except FieldDoesNotExist:
 			deployed_list = Deployed.objects.select_related('asset_tag') #perform natural join with inventory 
 			#Sort by foreign key attribute (if None than ignore)
-			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) 
+			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) #TODO IGNORE LOWER/UPPER When sorting
 
 		#generate paginator from ordered list
 		page = request.GET.get('page')
-		paginator = Paginator(deployed_list, 100)
+		paginator = Paginator(deployed_list, 64)
 		try:
 			deployed = paginator.page(page)
 		except PageNotAnInteger:
@@ -61,11 +61,11 @@ def undeployed(request):
 			except ObjectDoesNotExist:
 				undeployed_list.append(i)
 		#sort by 'order' attribute and ignore Null entries
-		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) 
+		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) #TODO IGNORE LOWER/UPPER When sorting
 
 		#generate paginator from ordered list
 		page = request.GET.get('page')
-		paginator = Paginator(undeployed_list, 100)
+		paginator = Paginator(undeployed_list, 64)
 		try:
 			undeployed = paginator.page(page)
 		except PageNotAnInteger:
@@ -74,6 +74,39 @@ def undeployed(request):
 			undeployed = paginator.page(paginator.num_pages)
 	#add context and render view
 	context = {'sub_template':'manager/undeployed.html','undeployed':undeployed,'order':order}
+	return render(request, 'manager/index.html',context)
+
+
+#VIEV INVENTORY BY GROUP
+def bygroup(request):
+	if request.method == 'GET':
+		#order list of deployed computer
+		order = str(request.GET.get('order'))
+		try:
+			grp = Group.objects.get(pk=request.GET.get('group'))
+		except Group.DoesNotExist:
+			grp = Group.objects.all()[0]
+		try:
+			#Order by primary attribute 
+			Deployed._meta.get_field(order)
+			group_list = Deployed.objects.filter(group=grp).order_by(order)
+		except FieldDoesNotExist:
+			group_list = Deployed.objects.filter(group=grp).select_related('asset_tag') #perform natural join with inventory 
+			#Sort by foreign key attribute (if None than ignore) 
+			group_list = sorted(group_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) #TODO IGNORE LOWER/UPPER When sorting
+			
+		#generate paginator from ordered list
+		page = request.GET.get('page')
+		paginator = Paginator(group_list, 64)
+		try:
+			group = paginator.page(page)
+		except PageNotAnInteger:
+			group = paginator.page(1)
+		except EmptyPage:
+			group = paginator.page(paginator.num_pages)
+	#add context and render view
+	context = {'sub_template':'manager/bygroup.html','group':group,'order':order,
+		'current_group':grp,'group_selection':Group.objects.all()}
 	return render(request, 'manager/index.html',context)
 
 #SELECT FORM FOR VIEW BY ASSET
@@ -201,7 +234,8 @@ def deploy(request):
 					d = Deployed(asset_tag = i)
 					d.username = form.cleaned_data['username']
 					d.location = form.cleaned_data['location']
-					d.group = Group.objects.get( pk = form.cleaned_data['group'])
+					d.group = Group.objects.get(group = form.cleaned_data['group'])
+					print(form.cleaned_data['group'])
 					d.date_issued = datetime.date.today()
 					d.save() #add to database
 					message = '#' + str(a) + " deployed to '" + d.username +"'"
