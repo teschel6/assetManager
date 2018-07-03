@@ -87,7 +87,6 @@ div.top_bar{
 /*style search box*/
 div.search_bar{
 	padding: 1rem 2rem;
-	
 }
 
 /*////////////////////////////////////////////*/
@@ -131,7 +130,3 @@ button.btn-primary:hover{
 	display: inline;
 }
 
-/*extra spacing on form widgets*/
-.form-control{
-	margin-bottom: 0.5em;
-}
