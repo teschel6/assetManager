@@ -5,6 +5,8 @@ from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import FieldDoesNotExist
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import CharField
+from django.db.models import  Q
 
 from .forms import *
 from .models import *
@@ -17,6 +19,23 @@ import datetime
 def index(request):
 	#todo: CHANGE INDEX TO LOGIN
 	context = {} #add no sub_template
+	return render(request, 'manager/index.html',context)
+
+#SEARCH RESULTS VIEW
+def search(request):
+	search_text = ""
+	if request.method == 'GET':
+		search_text = request.GET.get('search_text')
+		d = Deployed.objects.filter(username__contains = search_text)
+		d = d | Deployed.objects.filter(location__contains = search_text)
+		try:
+			i = Inventory.objects.get(pk = int(search_text))
+			d = d | Deployed.objects.filter(asset_tag = i)
+		except ValueError:
+			print('no matching asset_tag')
+		
+	context = {'sub_template':'manager/search.html','search_text':search_text,
+				'deployed_results':d}
 	return render(request, 'manager/index.html',context)
 
 #DEPLOYED INVENTORY VIEW

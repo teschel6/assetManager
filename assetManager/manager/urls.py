@@ -16,4 +16,5 @@ urlpatterns = [
     path('deployed/',views.deployed, name='deployed'),
     path('undeployed/',views.undeployed, name='undeployed'),
     path('bygroup/',views.bygroup, name='bygroup'),
+    path('search/',views.search, name='search'),
 ]

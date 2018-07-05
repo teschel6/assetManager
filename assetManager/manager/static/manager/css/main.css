@@ -19,7 +19,6 @@ div.container-fluid{
 
 /*Style side menu bar*/
 div.menu{
-
 	background-color: #363647;
 	height: 100%;
 	width: 250px; /*fixed width*/
@@ -75,6 +74,7 @@ div.content{
 	background-color: #cccccc;
 	overflow: auto;
 	max-height: 90vh;
+	height: 90vh;
 }
 
 /*style top bar container*/
@@ -117,7 +117,7 @@ div.cardd{ /*non-bootstrap card*/
 	margin: auto;
 	margin-top: 5%;
 	margin-bottom: 5%;
-	width: 80%;
+	width: 35rem;
 	max-width: 700px;
 	padding: 3rem;
 }

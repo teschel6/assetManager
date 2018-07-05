@@ -1,0 +1,22 @@
+<!--SEARCH RESULTS PAGE-->
+<p>{{ search_text}}</p>
+
+
+{% load static %}
+
+{% for d in deployed_results %}
+    <p>
+    {{ d.asset_tag.asset_tag }} ||
+    {{ d.username }} | |
+    {{ d.location }} | |
+    {{ d.date_issued }} | |
+    {{ d.asset_tag.computer_name }} | |
+    {{ d.asset_tag.model }} | |
+    {{ d.asset_tag.serial }} | |
+    {{ d.asset_tag.service_tag }} | |
+    {{ d.asset_tag.os}} | |
+    {{ d.asset_tag.purchase_date }} | |
+    {{ d.asset_tag.warrenty_expiration }} | |
+    {{ d.asset_tag.last_updated }} | |
+    </p>
+{% endfor %}
