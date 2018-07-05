@@ -74,7 +74,7 @@ div.content{
 	margin-left: 250px; /*same as menu bar width*/
 	background-color: #cccccc;
 	overflow: auto;
-	height: 100%;
+	max-height: 90vh;
 }
 
 /*style top bar container*/
@@ -82,12 +82,14 @@ div.top_bar{
 	background-color: white;
 	margin-left: 250px;
 	width: calc(100% - 250px);
+	height: 10vh;
 }
 
 
 /*style search box*/
 div.search-bar{
-	padding: 1.5rem 2rem;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 
 form.search-bar{
