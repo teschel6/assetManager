@@ -28,14 +28,30 @@ def search(request):
 		search_text = request.GET.get('search_text')
 		d = Deployed.objects.filter(username__contains = search_text)
 		d = d | Deployed.objects.filter(location__contains = search_text)
+
+		#if search is a number and deployed add to list
 		try:
-			i = Inventory.objects.get(pk = int(search_text))
-			d = d | Deployed.objects.filter(asset_tag = i)
+			search_num = int(search_text) #check if search text is a number
+			try:
+				i = Inventory.objects.get(pk=search_num)
+				try:
+					d = d | Deployed.objects.filter(asset_tag = i)
+				except Deployed.DoesNotExist:
+					pass
+			except Inventory.DoesNotExist:
+				pass
 		except ValueError:
-			print('no matching asset_tag')
-		
+			pass
+		d = d | Deployed.objects.filter(asset_tag__computer_name__contains =  search_text)
+		d = d | Deployed.objects.filter(asset_tag__model__contains =  search_text)
+		d = d | Deployed.objects.filter(asset_tag__os__contains =  search_text)
+		d = d | Deployed.objects.filter(asset_tag__serial__contains =  search_text)
+		d = d | Deployed.objects.filter(asset_tag__service_tag__contains =  search_text)
+		d = d | Deployed.objects.filter(asset_tag__notes__contains =  search_text)
+		print(d)
+		print(len(d))
 	context = {'sub_template':'manager/search.html','search_text':search_text,
-				'deployed_results':d}
+				'deployed_results':d, 'result_num': len(d)}
 	return render(request, 'manager/index.html',context)
 
 #DEPLOYED INVENTORY VIEW
