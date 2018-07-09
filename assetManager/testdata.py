@@ -21,7 +21,7 @@ from manager.models import *
 from random import randint
 import datetime
 
-TEST_AMOUNT = 10000 #number in sample to be added
+TEST_AMOUNT = 3000 #number in sample to be added
 
 #confirmation prompt
 print("WARNING: This script will remove the current Inventory database.")
@@ -39,7 +39,7 @@ if choice in yes:
     print("Database cleared")
 
     #ADD SAMPLE
-    print("Adding sample data")
+    print("Adding sample data...")
 
     models = ['Dell Optiplex 720','Dell Optiplex 7010','Dell Latitude E5530',
                 'Dell Latitude E6540', 'Dell Optiplex 320','Dell Optiplex 9010',
@@ -57,8 +57,15 @@ if choice in yes:
     for g in groups:
         new_group = Group(group=g)
         new_group.save()
-    print("Adding...")
+
+    progress = 0 #progress bar status
     for i in range(TEST_AMOUNT):
+        #progress bar        
+        if i % (TEST_AMOUNT / 10) == 0:
+            progress += 10
+            sys.stdout.write(str(progress))
+            sys.stdout.flush()
+
         a = Inventory(asset_tag=i)
         a.computer_name = str(randint(10000, 90000))
         a.model = models[randint(0,len(models)-1)]
@@ -77,7 +84,7 @@ if choice in yes:
             d.group = Group.objects.get(group = grp)
             d.date_issued = datetime.date.today()
             d.save()
-    print("Successfully added ",TEST_AMOUNT," assets")
+    print("\nSuccessfully added ",TEST_AMOUNT," assets")
 
 
 
