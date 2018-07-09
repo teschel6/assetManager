@@ -14,6 +14,7 @@ from .models import *
 from django.contrib import messages
 
 import datetime
+import time
 
 #DEFAULT TEST VIEW
 def index(request):
@@ -23,12 +24,15 @@ def index(request):
 
 #SEARCH RESULTS VIEW
 def search(request):
-	search_text = ""
+	search_text = "" #declare variable
+	elapsed_time = 0 #declare variable
+	SIGNIFICANT_FIG = 4 #elapsed time significant figures
+
 	if request.method == 'GET':
+		start_time = time.time()
 		search_text = request.GET.get('search_text')
 		d = Deployed.objects.filter(username__contains = search_text)
 		d = d | Deployed.objects.filter(location__contains = search_text)
-
 		#if search is a number and deployed add to list
 		try:
 			search_num = int(search_text) #check if search text is a number
@@ -48,10 +52,15 @@ def search(request):
 		d = d | Deployed.objects.filter(asset_tag__serial__contains =  search_text)
 		d = d | Deployed.objects.filter(asset_tag__service_tag__contains =  search_text)
 		d = d | Deployed.objects.filter(asset_tag__notes__contains =  search_text)
-		print(d)
-		print(len(d))
+		
+		#Calculated elapsed time and format
+		end_time = time.time()
+		elapsed_time = end_time - start_time
+		elapsed_time = float(("{0:.%ie}" % (SIGNIFICANT_FIG - 1)).format(elapsed_time))
+
+	#Add context and render search results view
 	context = {'sub_template':'manager/search.html','search_text':search_text,
-				'deployed_results':d, 'result_num': len(d)}
+				'deployed_results':d, 'result_num': len(d),'elapsed_time':elapsed_time}
 	return render(request, 'manager/index.html',context)
 
 #DEPLOYED INVENTORY VIEW
