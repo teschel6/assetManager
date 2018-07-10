@@ -12,51 +12,65 @@
 <div id="inventory-card" class="wider-card shadow">
   <h1 id=inventory-header>Search Results</h1>
 
+    <!--Paginator container-->
+    <div id="paginator-container" class="row">
+      <div class="col">
+        <small>
+          Search for "{{search_text}}" returned {{results.paginator.count}} 
+          results in {{elapsed_time}} S
+        </small>
+      </div>
+      <div class="col text-right">
+        {% if results.has_previous %}
+          <a href="?search_text={{search_text}}&page={{ results.previous_page_number }}">&laquo;</a>
+        {% else %}
+          <span class="disabled">&laquo;</span>
+        {% endif %}
+          <span> Page {{ results.number }} of {{ results.paginator.num_pages }} </span>
   
-    
-  <!--Paginator container-->
-  <div id="paginator-container" class="row">
-    <div class="col">
-      <small>
-        Search for "{{search_text}}" returned {{result_num}} results
-        in {{elapsed_time}} S
-      </small>
+        {% if results.has_next %}
+            <a href="?search_text={{search_text}}&page={{ results.next_page_number }}">&raquo;</a>
+        {% else %}
+            <span class="disabled">&raquo;</span></li>
+        {% endif %}
+      </div>
     </div>
-  </div>
-  <!--End paginator container-->
+    <!--End paginator container-->
+
+  
 
   <table id="inventory-table" class="table table-striped table-sm ">
   <thead>
     <tr class="inventory-table-head">
-      <th class="asset_tag_label"><a href="?order=asset_tag&page=1">#</a></th>
-      <th><a href="?order=username&page=1">Username &#9660;</a></th>
-      <th><a href="?order=location&page=1">Location &#9660;</a></th>
-      <th><a href="?order=date_issued&page=1">Issued &#9660;</a></th>
-      <th><a href="?order=computer_name&page=1">Computer Name &#9660;</a></th>
-      <th><a href="?order=model&page=1">Model &#9660;</a></th>
-      <th><a href="?order=serial&page=1">Serial &#9660;</a></th>
-      <th><a href="?order=service_tag&page=1">Service Tag &#9660;</a></th>
-      <th><a href="?order=os&page=1">Operating System &#9660;</a></th>
-      <th><a href="?order=purchase_date&page=1">Purchase Date &#9660;</a></th>
-      <th><a href="?order=warrenty_expiration&page=1">Warrenty Exp. &#9660;</a></th>
-      <th><a href="?order=last_updated&page=1">Last Updated &#9660;</a></th>
+      <th class="text-center">#</th>
+      <th>Username</th>
+      <th>Location</th>
+      <th>Issued</th>
+      <th>Computer Name</th>
+      <th>Model</th>
+      <th>Serial</th>
+      <th>Service Tag</th>
+      <th>Operating System</th>
+      <th>Purchase Date</th>
+      <th>Warrenty Exp.</th>
+      <th>Last Updated</th>
     </tr>
   </thead>
     <tbody>
-      {% for d in deployed_results %}
-        <tr class='clickable-row' data-href= "/{{d.asset_tag.asset_tag}}">
-          <td class="asset_tag_label">{{ d.asset_tag.asset_tag }}</td>
-          <td>{{ d.username }}</td>
-          <td>{{ d.location }}</td>
-          <td>{{ d.date_issued }}</td>
-          <td>{{ d.asset_tag.computer_name }}</td>
-          <td>{{ d.asset_tag.model }}</td>
-          <td>{{ d.asset_tag.serial }}</td>
-          <td>{{ d.asset_tag.service_tag }}</td>
-          <td>{{ d.asset_tag.os}}</td>
-          <td>{{ d.asset_tag.purchase_date }}</td>
-          <td>{{ d.asset_tag.warrenty_expiration }}</td>
-          <td>{{ d.asset_tag.last_updated }}</td>
+      {% for r in results %}
+        <tr class='clickable-row' data-href= "/{{r.asset_tag}}">
+          <td class="asset_tag_label">{{ r.asset_tag }}</td>
+          <td>{{ r.deployed.username }}</td>
+          <td>{{ r.deployed.location }}</td>
+          <td>{{ r.deployed.date_issued }}</td>
+          <td>{{ r.computer_name }}</td>
+          <td>{{ r.model }}</td>
+          <td>{{ r.serial }}</td>
+          <td>{{ r.service_tag }}</td>
+          <td>{{ r.os}}</td>
+          <td>{{ r.purchase_date }}</td>
+          <td>{{ r.warrenty_expiration }}</td>
+          <td>{{ r.last_updated }}</td>
         </tr>
       {% endfor %}
     </tbody>

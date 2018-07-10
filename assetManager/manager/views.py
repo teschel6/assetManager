@@ -31,36 +31,44 @@ def search(request):
 	if request.method == 'GET':
 		start_time = time.time()
 		search_text = request.GET.get('search_text')
-		d = Deployed.objects.filter(username__contains = search_text)
-		d = d | Deployed.objects.filter(location__contains = search_text)
-		#if search is a number and deployed add to list
+
+		r = Inventory.objects.filter(deployed__username__contains = search_text)
+		#try search by asset tag
 		try:
-			search_num = int(search_text) #check if search text is a number
+			input_num = int(search_text)
 			try:
-				i = Inventory.objects.get(pk=search_num)
-				try:
-					d = d | Deployed.objects.filter(asset_tag = i)
-				except Deployed.DoesNotExist:
-					pass
+				r = r | Inventory.objects.filter(pk = input_num)
 			except Inventory.DoesNotExist:
-				pass
-		except ValueError:
-			pass
-		d = d | Deployed.objects.filter(asset_tag__computer_name__contains =  search_text)
-		d = d | Deployed.objects.filter(asset_tag__model__contains =  search_text)
-		d = d | Deployed.objects.filter(asset_tag__os__contains =  search_text)
-		d = d | Deployed.objects.filter(asset_tag__serial__contains =  search_text)
-		d = d | Deployed.objects.filter(asset_tag__service_tag__contains =  search_text)
-		d = d | Deployed.objects.filter(asset_tag__notes__contains =  search_text)
+				pass #if dne ignore
+		except ValueError: 
+			pass #ignore if not a number
+		r = r | Inventory.objects.filter(deployed__location__contains = search_text)
+		r = r | Inventory.objects.filter(computer_name__contains =  search_text)
+		r = r | Inventory.objects.filter(model__contains =  search_text)
+		r = r | Inventory.objects.filter(os__contains =  search_text)
+		r = r | Inventory.objects.filter(serial__contains =  search_text)
+		r = r | Inventory.objects.filter(service_tag__contains =  search_text)
+		r = r | Inventory.objects.filter(notes__contains =  search_text)
+		#TODO search for asset_tag
+		#TODO search by dates
 		
 		#Calculated elapsed time and format
 		end_time = time.time()
 		elapsed_time = end_time - start_time
 		elapsed_time = float(("{0:.%ie}" % (SIGNIFICANT_FIG - 1)).format(elapsed_time))
 
+		#generate paginator from ordered list
+		page = request.GET.get('page')
+		paginator = Paginator(r, 64) #display 64 results per page
+		try:
+			results = paginator.page(page)
+		except PageNotAnInteger:
+			results = paginator.page(1)
+		except EmptyPage:
+			results = paginator.page(paginator.num_pages)
 	#Add context and render search results view
 	context = {'sub_template':'manager/search.html','search_text':search_text,
-				'deployed_results':d, 'result_num': len(d),'elapsed_time':elapsed_time}
+				'results':results, 'result_num': len(r),'elapsed_time':elapsed_time}
 	return render(request, 'manager/index.html',context)
 
 #DEPLOYED INVENTORY VIEW
@@ -93,19 +101,18 @@ def deployed(request):
 #UNDEPLOYED INVENTORY VIEW
 def undeployed(request):
 	if request.method == 'GET':
-		start_time = time.time()
 		#order list of deployed computer
 		order = str(request.GET.get('order'))
 
-		#get undeployed list
+		#get undeployed list 
+		#TODO Optimize undeployed query more
 		all_inventory_list = []
 		for i in Inventory.objects.all():
 			all_inventory_list.append(i)
 		deployed_list = []
 		for d in Deployed.objects.all():
-			deployed_list.append(d)
+			deployed_list.append(d.asset_tag)
 		undeployed_list = list(set(all_inventory_list) - set(deployed_list))
-		print("List found in: ",time.time() - start_time,"S")
 		#sort by 'order' attribute and ignore Null entries
 		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) #TODO IGNORE LOWER/UPPER When sorting
 		

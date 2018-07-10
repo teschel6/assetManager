@@ -21,7 +21,7 @@ from manager.models import *
 from random import randint
 import datetime
 
-TEST_AMOUNT = 3000 #number in sample to be added
+TEST_AMOUNT = 2000 #number in sample to be added
 
 #confirmation prompt
 print("WARNING: This script will remove the current Inventory database.")
@@ -43,7 +43,7 @@ if choice in yes:
 
     models = ['Dell Optiplex 720','Dell Optiplex 7010','Dell Latitude E5530',
                 'Dell Latitude E6540', 'Dell Optiplex 320','Dell Optiplex 9010',
-                'Macbook Pro 2012', 'Macbook Pro 2016','iMac 21.5 2009','iMac 21.5 2012'
+                'Macbook Pro 2012', 'Macbook Pro 2016','iMac 21.5 2009','iMac 21.5 2012',
                 'Dell Venue','Mac mini','Dell Latitude E5570']
 
     username = ['podium','Tom','Dick','Harry','John','Bob','Gary','Dylan','Sam','Sue','Sally','Susan','Hannah']
@@ -62,9 +62,9 @@ if choice in yes:
     for i in range(TEST_AMOUNT):
         #progress bar        
         if i % (TEST_AMOUNT / 10) == 0:
-            progress += 10
             sys.stdout.write(".." + str(progress))
             sys.stdout.flush()
+            progress += 10
 
         a = Inventory(asset_tag=i)
         a.computer_name = str(randint(10000, 90000))
