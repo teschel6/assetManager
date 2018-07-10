@@ -93,20 +93,22 @@ def deployed(request):
 #UNDEPLOYED INVENTORY VIEW
 def undeployed(request):
 	if request.method == 'GET':
+		start_time = time.time()
 		#order list of deployed computer
 		order = str(request.GET.get('order'))
-		print("sort by: ", order)
 
 		#get undeployed list
-		undeployed_list = []
+		all_inventory_list = []
 		for i in Inventory.objects.all():
-			try:
-				i.deployed #check if deployed exist
-			except ObjectDoesNotExist:
-				undeployed_list.append(i)
+			all_inventory_list.append(i)
+		deployed_list = []
+		for d in Deployed.objects.all():
+			deployed_list.append(d)
+		undeployed_list = list(set(all_inventory_list) - set(deployed_list))
+		print("List found in: ",time.time() - start_time,"S")
 		#sort by 'order' attribute and ignore Null entries
 		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) #TODO IGNORE LOWER/UPPER When sorting
-
+		
 		#generate paginator from ordered list
 		page = request.GET.get('page')
 		paginator = Paginator(undeployed_list, 64)

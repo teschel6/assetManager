@@ -63,7 +63,7 @@ if choice in yes:
         #progress bar        
         if i % (TEST_AMOUNT / 10) == 0:
             progress += 10
-            sys.stdout.write(str(progress))
+            sys.stdout.write(".." + str(progress))
             sys.stdout.flush()
 
         a = Inventory(asset_tag=i)
