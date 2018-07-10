@@ -37,11 +37,27 @@
 	</div>
 	<!--END MENU-->
 
+	<!--TOP NAV BAR-->
+	<div class="top_bar shadow row">
+		<div class="col-md-7">
+			<!--TODO: login here-->
+		</div>
+		<div class="col-md-5 search-bar">
+			<!--SEARCH FORM-->
+			<form action="/search" class="search-bar" method="get">
+				<div class="input-group">
+					<input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search_text">
+					<div class="input-group-append">
+						<button type="submit" class="btn btn-light btn-search">
+							<img class="search-icon" src="{% static 'manager/icons/search.png' %}">
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 	<!--START CONTENT-->
 	<div class="content">
-		<div class="top_bar shadow">
-		<!--TODO: Add search bar and login here-->
-		</div>
 		{% if messages %}
 		{% for message in messages %}
 			<div class="alert alert-{{ message.tags }} alert-dismissible">

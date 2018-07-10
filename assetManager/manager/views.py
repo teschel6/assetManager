@@ -5,6 +5,8 @@ from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import FieldDoesNotExist
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import CharField
+from django.db.models import  Q
 
 from .forms import *
 from .models import *
@@ -12,11 +14,60 @@ from .models import *
 from django.contrib import messages
 
 import datetime
+import time
 
 #DEFAULT TEST VIEW
 def index(request):
-	#todo: CHANGE INDEX TO LOGIN
+	#TODO: CHANGE INDEX TO LOGIN
 	context = {} #add no sub_template
+	return render(request, 'manager/index.html',context)
+
+#SEARCH RESULTS VIEW
+def search(request):
+	search_text = "" #declare variable
+	elapsed_time = 0 #declare variable
+	SIGNIFICANT_FIG = 4 #elapsed time significant figures
+
+	if request.method == 'GET':
+		start_time = time.time()
+		search_text = request.GET.get('search_text')
+
+		r = Inventory.objects.filter(deployed__username__contains = search_text)
+		#try search by asset tag
+		try:
+			input_num = int(search_text)
+			try:
+				r = r | Inventory.objects.filter(pk = input_num)
+			except Inventory.DoesNotExist:
+				pass #if dne ignore
+		except ValueError: 
+			pass #ignore if not a number
+		r = r | Inventory.objects.filter(deployed__location__contains = search_text)
+		r = r | Inventory.objects.filter(computer_name__contains =  search_text)
+		r = r | Inventory.objects.filter(model__contains =  search_text)
+		r = r | Inventory.objects.filter(os__contains =  search_text)
+		r = r | Inventory.objects.filter(serial__contains =  search_text)
+		r = r | Inventory.objects.filter(service_tag__contains =  search_text)
+		r = r | Inventory.objects.filter(notes__contains =  search_text)
+		#TODO search by dates
+		
+		#Calculated elapsed time and format
+		end_time = time.time()
+		elapsed_time = end_time - start_time
+		elapsed_time = float(("{0:.%ie}" % (SIGNIFICANT_FIG - 1)).format(elapsed_time))
+
+		#generate paginator from ordered list
+		page = request.GET.get('page')
+		paginator = Paginator(r, 64) #display 64 results per page
+		try:
+			results = paginator.page(page)
+		except PageNotAnInteger:
+			results = paginator.page(1)
+		except EmptyPage:
+			results = paginator.page(paginator.num_pages)
+	#Add context and render search results view
+	context = {'sub_template':'manager/search.html','search_text':search_text,
+				'results':results, 'result_num': len(r),'elapsed_time':elapsed_time}
 	return render(request, 'manager/index.html',context)
 
 #DEPLOYED INVENTORY VIEW
@@ -51,18 +102,19 @@ def undeployed(request):
 	if request.method == 'GET':
 		#order list of deployed computer
 		order = str(request.GET.get('order'))
-		print("sort by: ", order)
 
-		#get undeployed list
-		undeployed_list = []
+		#get undeployed list 
+		#TODO Optimize undeployed query more
+		all_inventory_list = []
 		for i in Inventory.objects.all():
-			try:
-				i.deployed #check if deployed exist
-			except ObjectDoesNotExist:
-				undeployed_list.append(i)
+			all_inventory_list.append(i)
+		deployed_list = []
+		for d in Deployed.objects.all():
+			deployed_list.append(d.asset_tag)
+		undeployed_list = list(set(all_inventory_list) - set(deployed_list))
 		#sort by 'order' attribute and ignore Null entries
 		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) #TODO IGNORE LOWER/UPPER When sorting
-
+		
 		#generate paginator from ordered list
 		page = request.GET.get('page')
 		paginator = Paginator(undeployed_list, 64)

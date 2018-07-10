@@ -1,0 +1,95 @@
+<!--SEARCH RESULTS PAGE-->
+
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css"
+  href="{% static 'manager/css/inventory-view.css' %}"/>
+
+<script src="{% static 'manager/js/inventory-view.js' %}"></script>
+
+<!--Main inventory card-->
+<div id="inventory-card" class="wider-card shadow">
+  <h1 id=inventory-header>Search Results</h1>
+
+    <!--Paginator container-->
+    <div id="paginator-container" class="row">
+      <div class="col">
+        <small>
+          Search for "{{search_text}}" returned {{results.paginator.count}} 
+          results in {{elapsed_time}} S
+        </small>
+      </div>
+      <div class="col text-right">
+        {% if results.has_previous %}
+          <a href="?search_text={{search_text}}&page={{ results.previous_page_number }}">&laquo;</a>
+        {% else %}
+          <span class="disabled">&laquo;</span>
+        {% endif %}
+          <span> Page {{ results.number }} of {{ results.paginator.num_pages }} </span>
+  
+        {% if results.has_next %}
+            <a href="?search_text={{search_text}}&page={{ results.next_page_number }}">&raquo;</a>
+        {% else %}
+            <span class="disabled">&raquo;</span></li>
+        {% endif %}
+      </div>
+    </div>
+    <!--End paginator container-->
+
+  
+
+  <table id="inventory-table" class="table table-striped table-sm ">
+  <thead>
+    <tr class="inventory-table-head">
+      <th class="text-center">#</th>
+      <th>Username</th>
+      <th>Location</th>
+      <th>Issued</th>
+      <th>Computer Name</th>
+      <th>Model</th>
+      <th>Serial</th>
+      <th>Service Tag</th>
+      <th>Operating System</th>
+      <th>Purchase Date</th>
+      <th>Warrenty Exp.</th>
+      <th>Last Updated</th>
+    </tr>
+  </thead>
+    <tbody>
+      {% for r in results %}
+        <tr class='clickable-row' data-href= "/{{r.asset_tag}}">
+          <td class="asset_tag_label">{{ r.asset_tag }}</td>
+          <td>{{ r.deployed.username }}</td>
+          <td>{{ r.deployed.location }}</td>
+          <td>{{ r.deployed.date_issued }}</td>
+          <td>{{ r.computer_name }}</td>
+          <td>{{ r.model }}</td>
+          <td>{{ r.serial }}</td>
+          <td>{{ r.service_tag }}</td>
+          <td>{{ r.os}}</td>
+          <td>{{ r.purchase_date }}</td>
+          <td>{{ r.warrenty_expiration }}</td>
+          <td>{{ r.last_updated }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!--START BOTTOM PAGINATOR-->
+  <div id="paginator-container" class="row justify-content-center bottom">
+      {% if results.has_previous %}
+        <a href="?search_text={{search_text}}&page={{ results.previous_page_number }}">&laquo;</a>
+      {% else %}
+        <span class="disabled">&laquo;</span>
+      {% endif %}
+        <span> Page {{ results.number }} of {{ results.paginator.num_pages }} </span>
+      {% if results.has_next %}
+          <a href="?search_text={{search_text}}&page={{ results.next_page_number }}">&raquo;</a>
+      {% else %}
+          <span class="disabled">&raquo;</span></li>
+      {% endif %}
+    </div>
+    <!--END BOTTOM PAGINATOR-->
+
+</div>
