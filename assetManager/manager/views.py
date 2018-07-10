@@ -18,7 +18,7 @@ import time
 
 #DEFAULT TEST VIEW
 def index(request):
-	#todo: CHANGE INDEX TO LOGIN
+	#TODO: CHANGE INDEX TO LOGIN
 	context = {} #add no sub_template
 	return render(request, 'manager/index.html',context)
 
@@ -49,7 +49,6 @@ def search(request):
 		r = r | Inventory.objects.filter(serial__contains =  search_text)
 		r = r | Inventory.objects.filter(service_tag__contains =  search_text)
 		r = r | Inventory.objects.filter(notes__contains =  search_text)
-		#TODO search for asset_tag
 		#TODO search by dates
 		
 		#Calculated elapsed time and format
