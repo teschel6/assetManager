@@ -1,19 +1,42 @@
 
-<!--EDIT GROUP->
+<!--EDIT GROUP-->
+{% load static %}
 
-<!--Load custom method to style form widgets-->
-{% load addCSS %}
+<script type="text/javascript" src="{% static 'manager/js/edit-groups.js' %}"></script>
 
-<div class="cardd shadow" method="post">
-        <h2 class="cardd_header">Add Group</h2>
-        <hr>
+
+<link rel="stylesheet" type="text/css"
+  href="{% static 'manager/css/edit-groups.css' %}"/>
+
+<div id="edit-grp-card" class="cardd shadow" method="post">
+        <h2 class="cardd_header">Edit Groups</h2>
+	<hr>
+	<ul id="group-list">
+		{% for g in groups %}
+		<li class="group_item">
+			<small>{{ g.group }}</small>
+			<button class="del_btn">&times;</button>
+		</li>
+		{% endfor %}
+		<li class="add_grp_item"></li>
+	</ul>
+
+	
+
+
+	<hr>
+
+	<div style="text-align: right">
+		<button class="btn btn-lg btn-primary btn-wide">NEW</button>
+	</div>
+	<!--
         <form action="" method="post">
 	        {% csrf_token %}
 		<label for="group">group</label>
-		{{ form.group|addclass:'form-control'}}
 		<br><br>
 		<div style="text-align:right">
-                	<button type="submit" class="btn btn-lg btn-primary btn-wide">ADD GROUP</button>
+                	<button type="submit" class="btn btn-lg btn-primary btn-wide">SUBMIT</button>
 		</div>
-        </form>
+	</form>
+	-->
 </div>

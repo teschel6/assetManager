@@ -379,5 +379,7 @@ def editGroups(request):
 	else:
 		form = AddGrp()
 
-	context= {'sub_template':'manager/editGroups.html','form':form}
+	groups = Group.objects.all()
+
+	context= {'sub_template':'manager/editGroups.html','form':form,'groups':groups}
 	return render(request, 'manager/index.html',context)

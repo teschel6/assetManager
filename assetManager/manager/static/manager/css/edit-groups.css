@@ -1,0 +1,38 @@
+/*styling classes for editGroups page*/
+/*Author: Teschel6*/
+/*Created: 7/11/18*/
+
+/*add min height to edit group cardd*/
+#edit-grp-card{
+   
+}
+
+#group-list{
+    list-style-type: none;
+    height: 25rem;
+    overflow-y: scroll;
+    padding: 0.5rem
+}
+
+/*style list item*/
+li.group_item{
+    overflow-x: hidden;
+    font-size: 1.25rem;
+}
+
+li.group_item:hover{
+    background-color: #eee;
+}
+
+button.del_btn{
+    background: none;
+    display: block;
+    border: none;
+    font: inherit;
+    outline: inherit;
+    cursor: pointer;
+    float: right;
+    visibility: hidden;
+}
+
+
