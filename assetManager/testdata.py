@@ -21,14 +21,19 @@ from manager.models import *
 from random import randint
 import datetime
 
-TEST_AMOUNT = 50 #number in sample to be added
-
 #confirmation prompt
 print("WARNING: This script will remove the current Inventory database.")
 question = "Are you sure you want to proceed (Yes/No)? "
 yes = set(['yes','y', 'ye'])
 choice = input(question).lower()
 if choice in yes:
+    #Get sample size
+    sample_size = 1000 #default sample size
+    sample_size = input("How many assets would you like to generate? ")
+    try:
+        sample_size = int(sample_size)
+    except TypeError:
+        pass
 
     #CLEAR DATABASE
     print("Deleting database")
@@ -59,9 +64,9 @@ if choice in yes:
         new_group.save()
 
     progress = 0 #progress bar status
-    for i in range(TEST_AMOUNT):
+    for i in range(sample_size):
         #progress bar        
-        if i % (TEST_AMOUNT / 10) == 0:
+        if i % (sample_size / 10) == 0:
             sys.stdout.write(".." + str(progress))
             sys.stdout.flush()
             progress += 10
@@ -84,7 +89,7 @@ if choice in yes:
             d.group = Group.objects.get(group = grp)
             d.date_issued = datetime.date.today()
             d.save()
-    print("\nSuccessfully added ",TEST_AMOUNT," assets")
+    print("\nSuccessfully added ",sample_size," assets")
 
 
 
