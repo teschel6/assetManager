@@ -83,6 +83,7 @@ div.top_bar{
 	margin-left: 250px;
 	width: calc(100% - 250px);
 	height: 10vh;
+	border-bottom: 1px solid #ccc; 
 }
 
 

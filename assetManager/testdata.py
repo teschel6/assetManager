@@ -21,7 +21,7 @@ from manager.models import *
 from random import randint
 import datetime
 
-TEST_AMOUNT = 2000 #number in sample to be added
+TEST_AMOUNT = 5000 #number in sample to be added
 
 #confirmation prompt
 print("WARNING: This script will remove the current Inventory database.")

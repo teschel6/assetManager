@@ -14,10 +14,10 @@ deployed & undeployed & search results
   position: relative;
 }
 .wider-card{
-  min-width: 80rem;
+  min-width: 50rem;
 }
 .wide-card{
-  min-width: 60rem;
+  min-width: 40rem;
 }
 
 /*header for inventory card */
