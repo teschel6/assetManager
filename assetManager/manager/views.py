@@ -367,8 +367,8 @@ def receive(request):
 	context = {'sub_template':'manager/receive.html','form':form}
 	return render(request, 'manager/index.html',context)
 
-#add group form view
-def addgrp(request):
+#edit groups view
+def editGroups(request):
 	if request.method == 'POST':
 		form = AddGrp(request.POST)
 		if form.is_valid():
@@ -379,5 +379,5 @@ def addgrp(request):
 	else:
 		form = AddGrp()
 
-	context= {'sub_template':'manager/addgrp.html','form':form}
+	context= {'sub_template':'manager/editGroups.html','form':form}
 	return render(request, 'manager/index.html',context)
