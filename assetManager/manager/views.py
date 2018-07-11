@@ -75,14 +75,26 @@ def deployed(request):
 	if request.method == 'GET':
 		#order list of deployed computer
 		order = str(request.GET.get('order'))
-		try:
-			#Order by primary attribute 
-			Deployed._meta.get_field(order)
-			deployed_list = Deployed.objects.all().order_by(order)
-		except FieldDoesNotExist:
-			deployed_list = Deployed.objects.select_related('asset_tag') #perform natural join with inventory 
-			#Sort by foreign key attribute (if None than ignore)
-			deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) #TODO IGNORE LOWER/UPPER When sorting
+		deployed_list = Deployed.objects.all()
+		if order != "asset_tag": #if order is asset_tag default sort
+			try:
+				Deployed._meta.get_field(order)
+				#Order by primary attribute 
+				if isinstance(getattr(deployed_list[0],order),str):
+					#if attribute is string sort and ignore upper/lower
+					deployed_list = sorted(deployed_list, key=lambda x: (getattr(x,order).lower() is None, getattr(x,order).lower()))
+				else:
+					#if attribute is not a string than sort
+					deployed_list = sorted(deployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order)))
+			except FieldDoesNotExist:
+				deployed_list = Deployed.objects.select_related('asset_tag') #perform natural join with inventory 
+				#Sort by foreign key attribute (if None than ignore)
+				if isinstance(getattr(deployed_list[0].asset_tag,order),str):
+					#if attribute is string sort and ignore upper/lower
+					deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order).lower() is None, getattr(x.asset_tag,order).lower()))
+				else:
+					#if attribute is not a string than sort
+					deployed_list = sorted(deployed_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order)))
 
 		#generate paginator from ordered list
 		page = request.GET.get('page')
@@ -113,7 +125,12 @@ def undeployed(request):
 			deployed_list.append(d.asset_tag)
 		undeployed_list = list(set(all_inventory_list) - set(deployed_list))
 		#sort by 'order' attribute and ignore Null entries
-		undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order))) #TODO IGNORE LOWER/UPPER When sorting
+		if isinstance(getattr(undeployed_list[0],order),str):
+			#if attribute is string sort and ignore upper/lower
+			undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order).lower() is None, getattr(x,order).lower()))
+		else:
+			#if attribute is not a string than sort
+			undeployed_list = sorted(undeployed_list, key=lambda x: (getattr(x,order) is None, getattr(x,order)))
 		
 		#generate paginator from ordered list
 		page = request.GET.get('page')
@@ -138,14 +155,26 @@ def bygroup(request):
 			grp = Group.objects.get(pk=request.GET.get('group'))
 		except Group.DoesNotExist:
 			grp = Group.objects.all()[0]
-		try:
-			#Order by primary attribute 
-			Deployed._meta.get_field(order)
-			group_list = Deployed.objects.filter(group=grp).order_by(order)
-		except FieldDoesNotExist:
-			group_list = Deployed.objects.filter(group=grp).select_related('asset_tag') #perform natural join with inventory 
-			#Sort by foreign key attribute (if None than ignore) 
-			group_list = sorted(group_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order))) #TODO IGNORE LOWER/UPPER When sorting
+		group_list = Deployed.objects.filter(group=grp)
+		if order != "asset_tag": #if order is asset_tag default sort
+			try:
+				Deployed._meta.get_field(order)
+				#Order by primary attribute 
+				if isinstance(getattr(group_list[0],order),str):
+					#if attribute is string sort and ignore upper/lower
+					group_list = sorted(group_list, key=lambda x: (getattr(x,order).lower() is None, getattr(x,order).lower()))
+				else:
+					#if attribute is not a string than sort
+					group_list = sorted(group_list, key=lambda x: (getattr(x,order) is None, getattr(x,order)))
+			except FieldDoesNotExist:
+				group_list = Deployed.objects.filter(group=grp).select_related('asset_tag') #perform natural join with inventory 
+				#Sort by foreign key attribute (if None than ignore)
+				if isinstance(getattr(group_list[0].asset_tag,order),str):
+					#if attribute is string sort and ignore upper/lower
+					group_list = sorted(group_list, key=lambda x: (getattr(x.asset_tag,order).lower() is None, getattr(x.asset_tag,order).lower()))
+				else:
+					#if attribute is not a string than sort
+					group_list = sorted(group_list, key=lambda x: (getattr(x.asset_tag,order) is None, getattr(x.asset_tag,order)))
 			
 		#generate paginator from ordered list
 		page = request.GET.get('page')
