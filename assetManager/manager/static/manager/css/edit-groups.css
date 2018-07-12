@@ -2,28 +2,26 @@
 /*Author: Teschel6*/
 /*Created: 7/11/18*/
 
-/*add min height to edit group cardd*/
-#edit-grp-card{
-   
-}
-
 #group-list{
     list-style-type: none;
     height: 25rem;
     overflow-y: scroll;
-    padding: 0.5rem
+    padding: 0;
 }
 
 /*style list item*/
 li.group_item{
     overflow-x: hidden;
     font-size: 1.25rem;
+    padding-left: 1rem;
+    border-bottom: 1px solid #cccccc;
 }
 
 li.group_item:hover{
     background-color: #eee;
 }
 
+/*Customize delete btn*/
 button.del_btn{
     background: none;
     display: block;
@@ -35,4 +33,30 @@ button.del_btn{
     visibility: hidden;
 }
 
+.add_grp_input{
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #bbb;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    padding-bottom: .2rem;
+}
+
+.add_grp_input:focus {
+    outline: none;
+    border-bottom: 2px solid #4a86e8;
+}
+#submit_add_grp{
+    color: #4a86e8;
+    background: none;
+    border: none;
+    font: inherit;
+    outline: inherit;
+    cursor: pointer;
+    padding-bottom: 0.1rem;
+    display: none;
+}
+#submit_add_grp:focus {
+    outline: none;
+}
 

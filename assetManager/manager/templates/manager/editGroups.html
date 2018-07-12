@@ -2,6 +2,8 @@
 <!--EDIT GROUP-->
 {% load static %}
 
+{% load addCSS%}
+
 <script type="text/javascript" src="{% static 'manager/js/edit-groups.js' %}"></script>
 
 
@@ -9,8 +11,14 @@
   href="{% static 'manager/css/edit-groups.css' %}"/>
 
 <div id="edit-grp-card" class="cardd shadow" method="post">
-        <h2 class="cardd_header">Edit Groups</h2>
-	<hr>
+	<h2 class="cardd_header">Edit Groups</h2>
+	<div id="add_grp_item">
+			<form action="" method="post">
+				{% csrf_token %}
+				{{form.group|addclass:'add_grp_input'}}
+				<button type="submit" id="submit_add_grp" type=submit>&gt;</button>
+			</form>
+	</div>
 	<ul id="group-list">
 		{% for g in groups %}
 		<li class="group_item">
@@ -18,17 +26,10 @@
 			<button class="del_btn">&times;</button>
 		</li>
 		{% endfor %}
-		<li class="add_grp_item"></li>
+		
 	</ul>
 
-	
-
-
 	<hr>
-
-	<div style="text-align: right">
-		<button class="btn btn-lg btn-primary btn-wide">NEW</button>
-	</div>
 	<!--
         <form action="" method="post">
 	        {% csrf_token %}

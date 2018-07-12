@@ -374,8 +374,7 @@ def editGroups(request):
 		if form.is_valid():
 			g = Group(group = form.cleaned_data['group'])
 			g.save()
-			print("Added ",form.cleaned_data['group']," to Groups")
-			return HttpResponseRedirect('/addgrp')
+			return HttpResponseRedirect('/editGroups')
 	else:
 		form = AddGrp()
 

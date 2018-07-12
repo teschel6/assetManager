@@ -6,6 +6,8 @@ from .models import Group
 
 class AddGrp(forms.Form):
 	group = forms.CharField(max_length=32)
+	group.widget.attrs.update({'autocomplete':'off'})
+	group.widget.attrs.update({'placeholder':'Enter New Group'})
 
 class AddInventory(forms.Form):
 	asset_tag = forms.IntegerField(required=True)
