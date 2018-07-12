@@ -20,5 +20,17 @@ $(document).ready(function() {
         $(this).css("width","100%");
         $("#submit_add_grp").css("display","none")
     });
+
     
+    $('.del_btn').click(function(e){
+        $("#myModal").modal();    
+    });
 });
+
+
+function confirm_delete(this){
+    //$("#myModal").modal();
+    $(this).parent().html("HELLO")
+    console.log(group)
+    $("#modalText").html(group);
+}
